@@ -1,0 +1,8 @@
+type:frog
+subType:dragon
+desc:this is a huge frogh with wings and has a tail like a dragon
+health:[100-200]
+attack:[150-300]
+defense:[150-300]
+xp:[500-1000]
+reward:[500-1000]

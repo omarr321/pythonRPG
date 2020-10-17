@@ -1,0 +1,5 @@
+type:potion
+name:testpotion
+desc:this is a test
+heal:[1-2]
+cost:[1-2]

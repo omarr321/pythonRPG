@@ -1,0 +1,5 @@
+Stand,
+Market,
+Shop,
+Store,
+Mart,

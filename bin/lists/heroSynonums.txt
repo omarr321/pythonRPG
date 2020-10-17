@@ -1,0 +1,7 @@
+heroes,
+adventurers,
+explorers,
+travelers,
+people,
+mercenaries,
+wanderers,

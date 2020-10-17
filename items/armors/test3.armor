@@ -1,0 +1,5 @@
+type:armor
+name:omar
+desc:this is a test
+defense:[1-2]
+cost:[1-2]

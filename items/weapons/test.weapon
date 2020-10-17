@@ -1,0 +1,5 @@
+type:weapon
+name:testweapon
+desc:this is test
+attack:[1-2]
+cost:[1-2]
