@@ -9,6 +9,7 @@ class XP:
         self.__levelCap = levelCap
 
     def addXP(self, amount):
+        flag = False
         self.__totalXP = int(self.__totalXP + amount)
         self.__xp = int(self.__xp + amount)
         while self.__xp >= self.__levelXP:
@@ -17,15 +18,18 @@ class XP:
                 self.__xp = self.__xp - self.__levelXP
                 self.__level = self.__level + 1
                 self.__levelXP = int(self.__levelXP + (self.__levelXP/(self.__level*6))*(self.__level))
+                flag = True
             else:
                 if self.__level != self.__levelCap:
                     print("You leveled up!")
                     self.__xp = self.__xp - self.__levelXP
                     self.__level = self.__level + 1
                     self.__levelXP = int(self.__levelXP + (self.__levelXP/(self.__level*6))*(self.__level))
+                    flag = True
                 else:
                     self.__xp = self.__levelXP
                     break
+        return flag
 
     def getLevel(self):
         return self.__level
@@ -37,7 +41,7 @@ class XP:
         return self.__levelXP
 
     def toString(self):
-        return "Current Level: " + str(self.__level) + "\n" + str(self.__xp) + "\\" + str(self.__levelXP)
+        return "LEVEL: " + str(self.__level) + "\nXP: " + str(self.__xp) + "\\" + str(self.__levelXP)
 
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")
