@@ -1,5 +1,9 @@
 from other import Inv
 from other import XP
+import random
+from items import Armor
+from items import Weapon
+from items import Potion
 
 class Player:
     __inv = Inv()
@@ -9,12 +13,14 @@ class Player:
     __maxHealth = 100
     __health = 100
     __attack = [1, 5]
-    __attMod = [0, 0]
+    __attMod = None
     __defence = [1,3]
-    __defMod = [0, 0]
+    __defMod = None
 
     def __init__(self, name):
         self.__name = name
+        self.__attMod = Weapon("default", 1)
+        self.__defMod = Armor("default", 1)
 
     def getHealth(self):
         return self.__health
@@ -29,10 +35,17 @@ class Player:
         return self.__money
 
     def getAttack(self):
-        pass
-
+        return random.randrange(self.__attack[0], self.__attack[1]+1) + self.__attMod.getDamageValue()
+ 
     def getDefence(self):
-        pass
+        return random.randrange(self.__defence[0], self.__defence[1]+1) + self.__defMod.getDefenseValue()
+
+    def equipItem(self, id):
+        temp = self.__inv.equip(id)
+        if isinstance(temp, Armor):
+            self.__defMod = temp
+        elif isinstance(temp, Weapon):
+            self.__attMod = temp
 
     def __setHealth(self, num):
         self.__health = num

@@ -62,6 +62,32 @@ class Inv:
 
         self.__inv = together
 
+    def __unequip(self,id):
+        if id <= 0 or id > len(self.__inv):
+            id = id - 1
+            self.__inv[id][1] = False
+            return True
+        return False
+
+    def equip(self, id):
+        if isinstance(self.__inv[id][0], Potion):
+            print("You can not equip a Potion!")
+            return None
+        elif isinstance(self.__inv[id][0], Weapon):
+            for x in self.__inv:
+                if isinstance(x[0], Weapon):
+                    x[1] = False
+        else:
+            for x in self.__inv:
+                if isinstance(x[0], Armor):
+                    x[1] = False
+
+        if id <= 0 or id > len(self.__inv):
+            id = id - 1
+            self.__inv[id][1] = True
+            return self.__inv[id][0]
+        return None
+
     def toString(self, numbered=False):
         temp = ""
         if numbered:
