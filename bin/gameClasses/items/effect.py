@@ -37,6 +37,11 @@ class Effect:
         temp = "RANGE: [" + self.__range[0] + "-" + self.__range[1] + "]\n"
         return temp
 
+    def toStringLine(self):
+        temp = "TYPE: " + self.__type.value
+        temp = "\tRANGE: [" + self.__range[0] + "-" + self.__range[1] + "]\n"
+        return temp
+
 
 
 
