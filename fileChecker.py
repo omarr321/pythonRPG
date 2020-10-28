@@ -100,6 +100,8 @@ def main():
 	#os.mkdir(tempDir, mode=0o777)
 
 if __name__ == "__main__":
+	raise NotImplementedError("This file is not done yet!")
+
 	if (os.path.isdir(tempDir)):
 		shutil.rmtree(tempDir)
 	main()

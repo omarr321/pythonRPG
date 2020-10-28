@@ -1,10 +1,10 @@
 import sys
 import os
 
-from items import Armor
-from items import Potion
-from items import Weapon
-from items import Item
+from ..items import Item
+from ..items import Armor
+from ..items import Potion
+from ..items import Weapon
 from .utility import sortList
 
 class Inv:

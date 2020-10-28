@@ -1,10 +1,9 @@
 import os
 import random
-
-from items import Armor
-from items import Weapon
-from items import Potion
-from other import Inv
+from ..items import Armor
+from ..items import Weapon
+from ..items import Potion
+from ..other import Inv
 
 class Shop:
     __path = os.path.join(os.getcwd(), "..", "..", "items")

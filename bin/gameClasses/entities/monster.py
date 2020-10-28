@@ -2,7 +2,7 @@ import os
 import random
 
 class Monster:
-    __path = os.path.join(os.getcwd(), "..", "..", "monsters")
+    __path = os.path.join(os.getcwd(), "monsters")
     __monsterFile = ""
     __mainType = ""
     __subType = ""
@@ -14,6 +14,7 @@ class Monster:
     __reward = [0, 0]
 
     def __init__(self, monsterType, playerLevel):
+        playerLevel = playerLevel - 1
         self.__monsterFile = str.lower(str(monsterType) + ".monster")
         if not os.path.exists(os.path.join(self.__path, self.__monsterFile)):
             raise Exception("Can not find " + monsterType + ".monster!")
@@ -31,7 +32,7 @@ class Monster:
         self.__xp = random.randrange(self.__xp[0], self.__xp[1] + 1)
         self.__reward = random.randrange(self.__reward[0], self.__reward[1] + 1)
 
-        self.__hp = int(self.__hp + (self.__hp[0]/3)*(playerLevel*(playerLevel/4)))
+        self.__hp = int(self.__hp + (self.__hp/3)*(playerLevel*(playerLevel/4)))
         self.__att[0] = int(self.__att[0] + (self.__att[0]/3)*(playerLevel*(playerLevel/4)))
         self.__deff[0] = int(self.__deff[0] + (self.__deff[0]/2)*(playerLevel*(playerLevel/3)))
         self.__att[1] = int(self.__att[1] + (self.__att[1]/3)*(playerLevel*(playerLevel/4)))

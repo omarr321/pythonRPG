@@ -1,13 +1,13 @@
-from other import Inv
-from other import XP
+from ..other import Inv
+from ..other import XP
 import random
-from items import Armor
-from items import Weapon
-from items import Potion
+from ..items import Armor
+from ..items import Weapon
+from ..items import Potion
 
 class Player:
-    __inv = Inv()
-    __xp = XP()
+    __inv = None
+    __xp = None
     __name = ""
     __money = 0
     __maxHealth = 100
@@ -17,8 +17,10 @@ class Player:
     __defence = [1,3]
     __defMod = None
 
-    def __init__(self, name):
+    def __init__(self, name, levelCap=0):
         self.__name = name
+        self.__xp = XP(levelCap)
+        self.__inv = Inv()
         self.__attMod = Weapon("default", 1)
         self.__defMod = Armor("default", 1)
 
@@ -30,6 +32,9 @@ class Player:
 
     def getInv(self):
         return self.__inv
+
+    def getXP(self):
+        return self.__xp
 
     def getMoney(self):
         return self.__money
@@ -77,7 +82,7 @@ class Player:
 
     def toString(self):
         temp = "NAME: " + str(self.__name) + "\n"
-        temp = "MONEY: $" + str(self.getMoney()) + "\n" 
+        temp = temp + "MONEY: $" + str(self.getMoney()) + "\n" 
         temp = temp + "HEALTH: " + str(self.getHealth()) + "\\" + str(self.getMaxHealth()) + "\n"
         temp = temp + self.__xp.toString() + "\n"
         temp = temp + "------------------------"
