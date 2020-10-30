@@ -39,9 +39,11 @@ class Player:
     def getMoney(self):
         return self.__money
 
+    #TODO: Fucking fix this shit! This needs to be fixed before more work can be done on the main class!
     def getAttack(self):
         return random.randrange(self.__attack[0], self.__attack[1]+1) + self.__attMod.getDamageValue()
  
+    #TODO: Fucking fix this shit! This needs to be fixed before more work can be done on the main class!
     def getDefence(self):
         return random.randrange(self.__defence[0], self.__defence[1]+1) + self.__defMod.getDefenseValue()
 

@@ -2,6 +2,7 @@
 
 import sys
 import os
+import time
 import random
 from bin.gameClasses.items import Potion
 from bin.gameClasses.entities import *
@@ -48,6 +49,14 @@ class Game:
                     except ValueError:
                         print("Error: You did not enter a number!")
                 if (temp == 1):
+                    self.clearScreen()
+                    playerAtt = self.__player.getAttack()
+                    print("You deal " + str(playerAtt) + " damage to the monster!")
+                    time.sleep(3)
+                    monAtt = monst.getAttackValue()
+                    print("The monster deal " + str(monAtt) + " damage to you!")
+                    print("Type anything to contine...")
+                    input()
                     self.clearScreen()
                     pass
                 elif (temp == 2):
