@@ -32,6 +32,35 @@ class Inv:
             id = id - 1
             self.__inv.remove(id)
 
+    def getlist(self, item):
+        temp = Inv()
+        if isinstance(item, Weapon):
+            for x in self.__inv:
+                if isinstance(x, Weapon):
+                    temp.addItem(x)
+        elif isinstance(item, Armor):
+            for x in self.__inv:
+                if isinstance(x, Armor):
+                    temp.addItem(x)
+        elif isinstance(item, Potion):
+            for x in self.__inv:
+                if isinstance(x, Potion):
+                    temp.addItem(x)
+        else:
+            return None
+
+        if temp.toString() == "Your inventory is empty!":
+            temp = ""
+            if isinstance(item, Potion):
+                temp = "You have no potions!"
+            elif isinstance(item, Weapon):
+                temp = "You have no Weapons!"
+            elif isinstance(item, Armor):
+                temp = "You have no Armors!"
+            return temp
+        else:
+            return temp.toString()
+
     def sort(self):
         armor = list()
         weapon = list()
@@ -89,6 +118,9 @@ class Inv:
         return None
 
     def toString(self, numbered=False):
+        if len(self.__inv) == 0:
+            return "Your inventory is empty!"
+
         temp = ""
         if numbered:
             for c, x in enumerate(self.__inv):

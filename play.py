@@ -3,6 +3,7 @@
 import sys
 import os
 import random
+from bin.gameClasses.items import Potion
 from bin.gameClasses.entities import *
 
 #sys.path.append(os.path.abspath(os.path.join("bin", "gameClasses")))  
@@ -13,6 +14,7 @@ class Game:
     def __init__(self):
         print("What is your name: ", end="")
         self.__player = Player(input())
+        self.clearScreen()
 
 
     def play(self):
@@ -24,9 +26,8 @@ class Game:
             rand = random.randrange(0, len(files))
             files = files[rand].split(".")[0]
             monst = Monster(files, self.__player.getXP().getLevel())
-
+            print("You encountered a monster!")
             while(True):
-                print("You encountered a monster!")
                 print(monst.toString())
                 print(self.__player.toString())
                 print("What would you like to do?")
@@ -47,14 +48,27 @@ class Game:
                     except ValueError:
                         print("Error: You did not enter a number!")
                 if (temp == 1):
+                    self.clearScreen()
                     pass
                 elif (temp == 2):
-                    pass
+                    self.clearScreen()
+                    print(self.__player.getInv().getlist(Potion("default", 0)))
+                    print("Type anything to contine...")
+                    input()
+                    self.clearScreen()
                 elif (temp == 3):
-                    pass
+                    self.clearScreen()
+                    print(self.__player.getInv().toString())
+                    print("Type anything to contine...")
+                    input()
+                    self.clearScreen()
                 elif (temp == 4):
                     print("Good Bye!")
                     exit(0)
+    
+    def clearScreen(self):
+        for _ in range(0, 50):
+            print("\n\n\n\n\n")
 
 if __name__ == "__main__":
     temp = Game()

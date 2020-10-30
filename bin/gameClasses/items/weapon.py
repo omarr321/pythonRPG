@@ -14,9 +14,9 @@ class Weapon(Item):
 
     def __init__(self, weaponName, playerLevel):
         playerLevel = playerLevel - 1
-        self.__potionFile = str.lower(str(weaponName) + ".potion")
+        self.__potionFile = str.lower(str(weaponName) + ".weapon")
         if not os.path.exists(os.path.join(self.__path, self.__potionFile)):
-            raise Exception("Can not find " + weaponName + ".potion!")
+            raise Exception("Can not find " + weaponName + ".weapon!")
 
         self.__name = super().getStringValue("name", self.__path, self.__potionFile)
         self.__desc = super().getStringValue("desc", self.__path, self.__potionFile)
@@ -28,7 +28,7 @@ class Weapon(Item):
         (_, _, files) = next(os.walk(self.__path))
 
         temp = weaponName + "Effect"
-        regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).potion$')
+        regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).armor$')
         for x in files:
             if regex.match(x):
                 temp = super().getStringValue("type", self.__path, x)
@@ -52,13 +52,18 @@ class Weapon(Item):
 
         return temp
 
-        
     def toStringLine(self):
         nameN = self.__name.split("\n")[0]
         leng = 16 - len(self.__name)
         for _ in range(0,leng):
             nameN = nameN + " "
         return "TYPE: Weapon   " + " NAME: " + str(nameN) + " COST: " + str(self.__cost)
+
+    def toSave(self):
+        temp = "type:weapon\n"
+        temp = temp + "name:" + self.__name + "\n"
+        temp = temp + "desc:" + self.__desc + "\n"
+        temp = temp + "cost:" + str(self.__cost) + "\n"
 
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")
