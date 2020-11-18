@@ -18,7 +18,7 @@ class Game:
         print("What is your name: ", end="")
         self.__player = Player(input())
         #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
-        temp = Shop(100, 1)
+        temp = Shop(10, 1)
         print(temp.toString())
         input()
         #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#

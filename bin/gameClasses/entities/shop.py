@@ -15,62 +15,61 @@ class Shop:
         if itemCount < 1:
             raise Exception("itemCount must be greater then 0")
 
+        armorList = list()
+        path = os.path.join(self.__path, "armors")
+        (__, __, files) = next(os.walk(path))
+        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.armor)$')
+        for x in files:
+            if not x == "default.armor":
+                if not regex.search(x):
+                    armorList.append(x)
+        if len(files) == 0:
+            raise Exception("There are no armor files to choose from!")
+
+        weaponList = list()
+        path = os.path.join(self.__path, "weapons")
+        (__, __, files) = next(os.walk(path))
+        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.weapon)$')
+        for x in files:
+            if not x == "default.weapon":
+                if not regex.search(x):
+                    weaponList.append(x)
+        if len(files) == 0:
+            raise Exception("There are no weapon files to choose from!")
+
+        potionList = list()
+        path = os.path.join(self.__path, "potions")
+        (__, __, files) = next(os.walk(path))
+        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.potion)$')
+        for x in files:
+            if not x == "default.potion":
+                if not regex.search(x):
+                    potionList.append(x)
+        if len(files) == 0:
+            raise Exception("There are no potion files to choose from!")
+
+        print(armorList)
+        print(weaponList)
+        print(potionList)
+
         for _ in range(0, itemCount):
             rand = random.randrange(1,4)
             if rand == 1:
-                path = os.path.join(self.__path, "armors")
-                (__, __, files) = next(os.walk(path))
-                for x in files:
-                    if x == "default.armor":
-                        files.remove(x)
-                    else:
-                        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.armor)$')
-                        if regex.search(x):
-                            files.remove(x)
-                if len(files) == 0:
-                    raise Exception("There are no armor files to choose from!")
-                rand = random.randrange(0, len(files))
-                files = files[rand]
-                files = files.split(".")[0]
-                files = Armor(files, playerLevel)
-                self.__inv.addItem(files)
+                rand = random.randrange(0, len(armorList))
+                temp = armorList[rand].split(".")[0]
+                temp = Armor(temp, playerLevel)
+                self.__inv.addItem(temp)
 
             elif rand == 2:
-                path = os.path.join(self.__path, "weapons")
-                (__, __, files) = next(os.walk(path))
-                for x in files:
-                    if x == "default.weapon":
-                        files.remove(x)
-                    else:
-                        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.weapon)$')
-                        if regex.search(x):
-                            files.remove(x)
-                    
-                if len(files) == 0:
-                    raise Exception("There are no weapon files to choose from!")
-                rand = random.randrange(0, len(files))
-                files = files[rand]
-                files = files.split(".")[0]
-                files = Weapon(files, playerLevel)
-                self.__inv.addItem(files)
+                rand = random.randrange(0, len(weaponList))
+                temp = weaponList[rand].split(".")[0]
+                temp = Weapon(temp, playerLevel)
+                self.__inv.addItem(temp)
             else:
-                path = os.path.join(self.__path, "potions")
-                (__, __, files) = next(os.walk(path))
-                for x in files:
-                    if x == "default.potion":
-                        files.remove(x)
-                    else:
-                        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.potion)$')
-                        if regex.search(x):
-                            files.remove(x)
-                    
-                if len(files) == 0:
-                    raise Exception("There are no potion files to choose from!")
-                rand = random.randrange(0, len(files))
-                files = files[rand]
-                files = files.split(".")[0]
-                files = Potion(files, playerLevel)
-                self.__inv.addItem(files)
+                rand = random.randrange(0, len(potionList))
+                temp = potionList[rand].split(".")[0]
+                temp = Potion(temp, playerLevel)
+                self.__inv.addItem(temp)
 
             path = os.path.join(os.getcwd(), "bin", "lists")
 
