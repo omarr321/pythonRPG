@@ -1,5 +1,4 @@
 type:potion
 name:testpotion
-desc:this is a test
-heal:[1-2]
+desc:this is test
 cost:[1-2]

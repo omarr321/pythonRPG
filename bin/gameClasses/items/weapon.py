@@ -14,13 +14,13 @@ class Weapon(Item):
 
     def __init__(self, weaponName, playerLevel):
         playerLevel = playerLevel - 1
-        self.__potionFile = str.lower(str(weaponName) + ".weapon")
-        if not os.path.exists(os.path.join(self.__path, self.__potionFile)):
+        self.__weaponFile = str.lower(str(weaponName) + ".weapon")
+        if not os.path.exists(os.path.join(self.__path, self.__weaponFile)):
             raise Exception("Can not find " + weaponName + ".weapon!")
 
-        self.__name = super().getStringValue("name", self.__path, self.__potionFile)
-        self.__desc = super().getStringValue("desc", self.__path, self.__potionFile)
-        super().setNumberPair(self.__cost, "cost", self.__path, self.__potionFile)
+        self.__name = super().getStringValue("name", self.__path, self.__weaponFile)
+        self.__desc = super().getStringValue("desc", self.__path, self.__weaponFile)
+        super().setNumberPair(self.__cost, "cost", self.__path, self.__weaponFile)
         
         self.__cost = random.randrange(self.__cost[0], self.__cost[1] + 1)
         self.__cost = int(self.__cost + (self.__cost/2)*(playerLevel*(playerLevel/3)))
@@ -28,7 +28,7 @@ class Weapon(Item):
         (_, _, files) = next(os.walk(self.__path))
 
         temp = weaponName + "Effect"
-        regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).armor$')
+        regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).weapon$')
         for x in files:
             if regex.match(x):
                 temp = super().getStringValue("type", self.__path, x)

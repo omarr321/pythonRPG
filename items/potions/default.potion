@@ -1,4 +1,3 @@
-type:potion
-name:default
-desc:this is the default potion.
+name:Default
+desc:This is the default potion
 cost:[0-0]

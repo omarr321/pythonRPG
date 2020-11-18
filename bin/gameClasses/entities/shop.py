@@ -1,12 +1,13 @@
 import os
 import random
+import re
 from ..items import Armor
 from ..items import Weapon
 from ..items import Potion
 from ..other import Inv
 
 class Shop:
-    __path = os.path.join(os.getcwd(), "..", "..", "items")
+    __path = os.path.join(os.getcwd(), "items")
     __inv = Inv()
     __name = ""
 
@@ -19,6 +20,13 @@ class Shop:
             if rand == 1:
                 path = os.path.join(self.__path, "armors")
                 (__, __, files) = next(os.walk(path))
+                for x in files:
+                    if x == "default.armor":
+                        files.remove(x)
+                    else:
+                        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.armor)$')
+                        if regex.search(x):
+                            files.remove(x)
                 if len(files) == 0:
                     raise Exception("There are no armor files to choose from!")
                 rand = random.randrange(0, len(files))
@@ -30,6 +38,14 @@ class Shop:
             elif rand == 2:
                 path = os.path.join(self.__path, "weapons")
                 (__, __, files) = next(os.walk(path))
+                for x in files:
+                    if x == "default.weapon":
+                        files.remove(x)
+                    else:
+                        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.weapon)$')
+                        if regex.search(x):
+                            files.remove(x)
+                    
                 if len(files) == 0:
                     raise Exception("There are no weapon files to choose from!")
                 rand = random.randrange(0, len(files))
@@ -40,6 +56,14 @@ class Shop:
             else:
                 path = os.path.join(self.__path, "potions")
                 (__, __, files) = next(os.walk(path))
+                for x in files:
+                    if x == "default.potion":
+                        files.remove(x)
+                    else:
+                        regex = re.compile('Effect[1-9]{1}([0-9]{0,}.potion)$')
+                        if regex.search(x):
+                            files.remove(x)
+                    
                 if len(files) == 0:
                     raise Exception("There are no potion files to choose from!")
                 rand = random.randrange(0, len(files))
@@ -48,7 +72,7 @@ class Shop:
                 files = Potion(files, playerLevel)
                 self.__inv.addItem(files)
 
-            path = os.path.join(os.getcwd(), "..", "lists")
+            path = os.path.join(os.getcwd(), "bin", "lists")
 
         name = str(self.__getRandomLine(path, "npcNames.txt")).split(",")[0] + " " + str(self.__getRandomLine(path, "npcNames.txt")).split(",")[0]
         shopDesc = str(self.__getRandomLine(path, "descriptors.txt")).split(",")[0]

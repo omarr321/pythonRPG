@@ -12,7 +12,7 @@ class Item:
             if line.startswith(key + ":"):
                 temp = line.split(":")
                 f.close()
-                return temp[1]
+                return temp[1].rstrip()
         f.close()
         raise Exception("Can not find key \"" + str(key) + "\"!")
     

@@ -1,11 +1,13 @@
 import os
 import random
+from ..items import EffectStatus
+from ..items import Effect
 
 class Monster:
     __path = os.path.join(os.getcwd(), "monsters")
     __monsterFile = ""
-    __mainType = ""
-    __subType = ""
+    __name = ""
+    __type = None
     __desc = ""
     __hp = [0, 0]
     __att = [0, 0]
@@ -19,8 +21,8 @@ class Monster:
         if not os.path.exists(os.path.join(self.__path, self.__monsterFile)):
             raise Exception("Can not find " + monsterType + ".monster!")
 
-        self.__mainType = self.__getStringValue("type")
-        self.__subType = self.__getStringValue("subType")
+        self.__name = self.__getStringValue("name")
+        self.__type = Effect(self.__getFileEffect(self.__getStringValue("type")), [0,0])
         self.__desc = self.__getStringValue("desc")
         self.__setNumberPair(self.__hp, "health")
         self.__setNumberPair(self.__att, "attack")
@@ -46,10 +48,26 @@ class Monster:
             if line.startswith(key + ":"):
                 temp = line.split(":")
                 f.close()
-                return temp[1]
+                return temp[1].rstrip()
         f.close()
         raise Exception("Can not find key \"" + str(key) + "\"!")
 
+    def getType(self):
+        return self.__type
+
+    def __getFileEffect(self, i):
+        if i == "fire":
+            return EffectStatus.FIRE
+        elif i == "ice":
+            return EffectStatus.ICE
+        elif i == "acid":
+            return EffectStatus.ACID
+        elif i == "light":
+            return EffectStatus.LIGHT
+        elif i == "dark":
+            return EffectStatus.DARK
+        else:
+            return None
 
     def __setNumberPair(self, arr, key):
         f = open(os.path.join(self.__path, self.__monsterFile))
@@ -94,8 +112,8 @@ class Monster:
             return False
 
     def toString(self):
-        temp = "TYPE: " + str(self.__mainType) + "SUB-TYPE: " + str(self.__subType)
-        temp = temp + "\t" + str(self.__desc) + "HP: " + str(self.__hp)
+        temp = "NAME: " + str(self.__name) + "\tTYPE: " + str(self.__type.getType().name) + "\n"
+        temp = temp + "\t" + str(self.__desc) + "\nHP: " + str(self.__hp)
         temp = temp + "\t\t" + "ATT: " + self.__pairValueToStr(self.__att) + "\t" + "DEF: " + self.__pairValueToStr(self.__deff) + "\n"
 
         return temp

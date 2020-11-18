@@ -1,4 +1,3 @@
-type:weapon
-name:default
-desc:this is the default weapon
+name:Default
+desc:This is the default weapon
 cost:[0-0]

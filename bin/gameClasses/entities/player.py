@@ -4,6 +4,9 @@ import random
 from ..items import Armor
 from ..items import Weapon
 from ..items import Potion
+from .monster import Monster
+from ..items import Effect
+from ..items import EffectStatus
 
 class Player:
     __inv = None
@@ -12,17 +15,17 @@ class Player:
     __money = 0
     __maxHealth = 100
     __health = 100
-    __attack = [1, 5]
+    __attack = [2, 6]
     __attMod = None
-    __defence = [1,3]
+    __defence = [1,4]
     __defMod = None
 
     def __init__(self, name, levelCap=0):
         self.__name = name
         self.__xp = XP(levelCap)
         self.__inv = Inv()
-        self.__attMod = Weapon("default", 1)
-        self.__defMod = Armor("default", 1)
+        self.__attMod = None
+        self.__defMod = None
 
     def getHealth(self):
         return self.__health
@@ -39,13 +42,41 @@ class Player:
     def getMoney(self):
         return self.__money
 
-    #TODO: Fucking fix this shit! This needs to be fixed before more work can be done on the main class!
-    def getAttack(self):
-        return random.randrange(self.__attack[0], self.__attack[1]+1) + self.__attMod.getDamageValue()
- 
-    #TODO: Fucking fix this shit! This needs to be fixed before more work can be done on the main class!
-    def getDefence(self):
-        return random.randrange(self.__defence[0], self.__defence[1]+1) + self.__defMod.getDefenseValue()
+    def getAttack(self, monster):
+        if isinstance(monster, Monster):
+            temp = list()
+            att = random.randrange(self.__attack[0], self.__attack[1]+1)
+            temp.append([att])
+            if not self.__attMod == None:
+                weapon = self.__attMod.getEffects()
+
+                for x in weapon:
+                    if isinstance(x, Effect):
+                        thing = x.getRandom()
+                        muti = self.__getAttackMutipler(x, monster.getType())
+                        monster.attack(thing * muti)
+                        temp.append([thing*muti, x.getType(), muti])
+            return temp
+        else:
+            print("Monster is not monster!")
+            return list()
+
+    def getDefence(self, monster):
+        if isinstance(monster, Monster):
+            temp = list()
+            deff = random.randrange(self.__defence[0], self.__defence[1]+1)
+            temp.append([deff])
+            armor = self.__defMod.getEffects()
+
+            for x in armor:
+                if isinstance(x, Effect):
+                    thing = x.getRandom()
+                    self.subHealth(thing)
+                    temp.append([thing, x.getType()])
+            return temp
+        else:
+            print("Monster is not monster!")
+            return list()
 
     def equipItem(self, id):
         temp = self.__inv.equip(id)
@@ -54,16 +85,91 @@ class Player:
         elif isinstance(temp, Weapon):
             self.__attMod = temp
 
+    def __getAttackMutipler(self, n1, n2):
+        if isinstance(n1, Effect):
+            if isinstance(n2, Effect):
+                if n1.getType() == EffectStatus.ACID:
+                    if n2.getType() == EffectStatus.ACID:
+                        return .5
+                    elif n2.getType() == EffectStatus.DARK:
+                        return .5
+                    elif n2.getType() == EffectStatus.FIRE:
+                        return .5
+                    elif n2.getType() == EffectStatus.ICE:
+                        return 2
+                    elif n2.getType() == EffectStatus.LIGHT:
+                        return 2
+                    else:
+                        return 1
+                elif n1.getType() == EffectStatus.DARK:
+                    if n2.getType() == EffectStatus.ACID:
+                        return 2
+                    elif n2.getType() == EffectStatus.DARK:
+                        return .5
+                    elif n2.getType() == EffectStatus.FIRE:
+                        return 0
+                    elif n2.getType() == EffectStatus.ICE:
+                        return 0
+                    elif n2.getType() == EffectStatus.LIGHT:
+                        return 2
+                    else:
+                        return 1
+                elif n1.getType() == EffectStatus.FIRE:
+                    if n2.getType() == EffectStatus.ACID:
+                        return 2
+                    elif n2.getType() == EffectStatus.DARK:
+                        return 0
+                    elif n2.getType() == EffectStatus.FIRE:
+                        return .5
+                    elif n2.getType() == EffectStatus.ICE:
+                        return 2
+                    elif n2.getType() == EffectStatus.LIGHT:
+                        return 0
+                    else:
+                        return 1
+                elif n1.getType() == EffectStatus.ICE:
+                    if n2.getType() == EffectStatus.ACID:
+                        return .5
+                    elif n2.getType() == EffectStatus.DARK:
+                        return 0
+                    elif n2.getType() == EffectStatus.FIRE:
+                        return 2
+                    elif n2.getType() == EffectStatus.ICE:
+                        return .5
+                    elif n2.getType() == EffectStatus.LIGHT:
+                        return 0
+                    else:
+                        return 1
+                elif n1.getType() == EffectStatus.LIGHT:
+                    if n2.getType() == EffectStatus.ACID:
+                        return .5
+                    elif n2.getType() == EffectStatus.DARK:
+                        return 2
+                    elif n2.getType() == EffectStatus.FIRE:
+                        return 0
+                    elif n2.getType() == EffectStatus.ICE:
+                        return 0
+                    elif n2.getType() == EffectStatus.LIGHT:
+                        return .5
+                    else:
+                        return 1
+                else:
+                    return 1
+            else:
+                return 0
+        else:
+            return 0
+
     def __setHealth(self, num):
         self.__health = num
 
     def subHealth(self, effect):
-        self.__setHealth(self.getHealth - effect)
+        self.__setHealth(self.getHealth() - effect)
         if self.__health < 0:
             self.__health = 0
 
     def addHealth(self, effect):
-        self.__setHealth(self.getHealth + effect)
+        self.__setHealth(self.getHealth() + effect)
         if self.__health > self.__maxHealth:
             self.__health = self.__maxHealth
 
@@ -81,6 +187,12 @@ class Player:
         else:
             self.__money = self.__money - amount
             return True
+
+    def isDead(self):
+        if self.__health == 0:
+            return True
+        else:
+            return False
 
     def toString(self):
         temp = "NAME: " + str(self.__name) + "\n"

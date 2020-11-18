@@ -1,5 +1,4 @@
 type:armor
-name:fred
-desc:this is a test
-defense:[1-2]
+name:testarmor
+desc:this is test
 cost:[1-2]

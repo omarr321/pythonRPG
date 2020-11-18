@@ -5,6 +5,8 @@ def sortList(itemList, arrInt):
 
         if len(itemL) == 1:
             return itemL
+        elif len(itemL) == 0:
+            return list()
         
         top = list()
         bottom = list()
