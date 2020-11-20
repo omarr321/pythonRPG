@@ -18,9 +18,11 @@ class Game:
         print("What is your name: ", end="")
         self.__player = Player(input())
         #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
-        temp = Shop(10, 1)
-        print(temp.toString())
-        input()
+        #temp = Shop(10, 1)
+        #print(temp.toString())
+        #input()
+        #self.__player.getInv().addItem(Weapon("test", 1))
+        #self.__player.equipItem(0)
         #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
 
         self.clearScreen()
@@ -31,6 +33,9 @@ class Game:
         for _ in range(0, temp):
             self.fightMonster()
     
+    def visitShop(self):
+        pass
+
     def fightMonster(self):
         (_, _, files) = next(os.walk("monsters"))
         if len(files) == 0:
@@ -65,8 +70,12 @@ class Game:
                 playerAtt = self.__player.getAttack(monst)
                 for x in playerAtt:
                     try:
-                        x[1]
-                        print("you deal " + str(x[0]) + " of " + str(x[1].name) + " damage! (x" + str(x[2]) + ")")
+                        x[3]
+                        if not x[3]:
+                            print("You dealed " + str(x[0]) + " " + str(x[1]) + " damage to the Monster! (x" + str(x[2]) + ")")
+                        else:
+                            print("You healed " + str(x[0]) + " health!")
+                            totalPlayerAtt = totalPlayerAtt - x[0]
                     except IndexError:
                         print("You deal " + str(x[0]) + " damage to the monster!")
                     totalPlayerAtt = totalPlayerAtt + x[0]
@@ -96,9 +105,24 @@ class Game:
                     break
 
                 monAtt = monst.getAttackValue()
-                print("The monster deal " + str(monAtt) + " damage to you!")
-                self.__player.subHealth(monAtt)
+                print("The monster deals " + str(monAtt) + " damage to you!")
                 time.sleep(3)
+                playerDef = self.__player.getDefence(monst)
+                totalDef = 0
+                for x in playerDef:
+                    try:
+                        x[2]
+                        print("You protected against " + str(x[0]) + " damage using your " + str(x[1]) + " defence! (x" + str(x[2]) + ")")
+                    except IndexError:
+                        print("You protected against " + str(x[0]) + " damage!")
+                    totalDef = totalDef + x[0]
+                    time.sleep(3)
+
+                monAtt = monAtt - totalDef
+                if monAtt < 0:
+                    monAtt = 0
+                self.__player.subHealth(monAtt)
+                #time.sleep(3)
                 if self.__player.isDead():
                     self.clearScreen()
                     print("YOU HAVE DIED!")

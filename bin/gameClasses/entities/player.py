@@ -17,7 +17,7 @@ class Player:
     __health = 100
     __attack = [2, 6]
     __attMod = None
-    __defence = [1,4]
+    __defence = [1,2]
     __defMod = None
 
     def __init__(self, name, levelCap=0):
@@ -46,16 +46,26 @@ class Player:
         if isinstance(monster, Monster):
             temp = list()
             att = random.randrange(self.__attack[0], self.__attack[1]+1)
-            temp.append([att])
+            temp.append([att, "BASE", 1, False])
             if not self.__attMod == None:
                 weapon = self.__attMod.getEffects()
 
                 for x in weapon:
                     if isinstance(x, Effect):
-                        thing = x.getRandom()
-                        muti = self.__getAttackMutipler(x, monster.getType())
-                        monster.attack(thing * muti)
-                        temp.append([thing*muti, x.getType(), muti])
+                        if not x.getType() == EffectStatus.DEFENSE:
+                            if x.getType() == EffectStatus.HEAL:
+                                thing = x.getRandom()
+                                self.addHealth(thing)
+                                temp.append([thing, "", 0, True])
+                            elif x.getType() == EffectStatus.DAMAGE:
+                                thing = x.getRandom()
+                                #monster.attack(thing)
+                                temp.append([thing, "NORMAL", 1, False])
+                            else:
+                                thing = x.getRandom()
+                                muti = self.__getAttackMutipler(x, monster.getType())
+                                #monster.attack(thing * muti)
+                                temp.append([int(thing*muti), x.getType().name, muti, False])
             return temp
         else:
             print("Monster is not monster!")
@@ -65,14 +75,15 @@ class Player:
         if isinstance(monster, Monster):
             temp = list()
             deff = random.randrange(self.__defence[0], self.__defence[1]+1)
-            temp.append([deff])
-            armor = self.__defMod.getEffects()
-
-            for x in armor:
-                if isinstance(x, Effect):
-                    thing = x.getRandom()
-                    self.subHealth(thing)
-                    temp.append([thing, x.getType()])
+            temp.append([deff, "BASE", 1])
+            if not self.__defMod == None:
+                armor = self.__defMod.getEffects()
+                for x in armor:
+                    if isinstance(x, Effect):
+                        if x.getType() == EffectStatus.DEFENSE:
+                            thing = x.getRandom()
+                        #self.subHealth(thing)
+                        temp.append([thing, x.getType().name, 1])
             return temp
         else:
             print("Monster is not monster!")
