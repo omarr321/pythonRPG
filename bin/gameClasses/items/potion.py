@@ -13,6 +13,7 @@ class Potion(Item):
     __cost = [0, 0]
 
     def __init__(self, potionName, playerLevel):
+        Item.__init__(self)
         playerLevel = playerLevel - 1
         self.__potionFile = str.lower(str(potionName) + ".potion")
         if not os.path.exists(os.path.join(self.__path, self.__potionFile)):
@@ -27,7 +28,7 @@ class Potion(Item):
 
         (_, _, files) = next(os.walk(self.__path))
 
-        temp = potionName + "Effect"
+        temp = str.lower(potionName) + "Effect"
         regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).potion$')
         for x in files:
             if regex.match(x):
@@ -37,18 +38,31 @@ class Potion(Item):
                 curEffect = Effect(super().getFileEffect(temp), ran)
                 if super().getStringValue("solved", self.__path, x) == "True":
                     curEffect.setRandom()
-                super().addEffect(curEffect)
+                self.addEffect(curEffect)
 
     def getCostValue(self):
         return self.__cost
 
+    def halfCostValue(self):
+        self.__cost = int(self.__cost / 2)
+        if self.__cost == 0:
+            self.__cost += 1
+
+    def doubleCostValue(self):
+        self.__cost = self.__cost * 2
+
     def toString(self):
         temp = "NAME: " + str(self.__name)
-        temp = temp + "\n\t" + str(self.__desc)
+        temp = temp + "\t" + str(self.__desc)
         temp = temp + "COST: " + str(self.__cost) + "\n"
-        for x in super().getEffects():
-            if isinstance(x, Effect):
-                temp = temp + x.toStringLine()
+        temp = temp + "EEFECTS:\n"
+        effectList = self.getEffects()
+        if len(effectList) == 0:
+            temp = temp + "NONE\n"
+        else:
+            for x in effectList:
+                if isinstance(x, Effect):
+                    temp = temp + x.toStringLine()
 
         return temp
 
@@ -56,8 +70,11 @@ class Potion(Item):
     def toStringLine(self):
         nameN = self.__name.split("\n")[0]
         leng = 16 - len(self.__name)
-        for _ in range(0,leng):
-            nameN = nameN + " "
+        if leng < 0:
+            nameN = nameN[:13] + "..."
+        else:
+            for _ in range(0,leng):
+                nameN = nameN + " "
         return "TYPE: Potion   " + " NAME: " + str(nameN) + " COST: " + str(self.__cost)
 
     def toSave(self):

@@ -89,12 +89,23 @@ class Player:
             print("Monster is not monster!")
             return list()
 
+    def unequipItem(self, id):
+        temp = self.__inv.unequip(id)
+        if temp != None:
+            if isinstance(temp, Weapon):
+                self.__defMod = None
+            elif isinstance(temp, Armor):
+                self.__attMod = None
+
     def equipItem(self, id):
         temp = self.__inv.equip(id)
         if isinstance(temp, Armor):
             self.__defMod = temp
         elif isinstance(temp, Weapon):
             self.__attMod = temp
+
+    def getInvLen(self):
+        return self.__inv.getLen()
 
     def __getAttackMutipler(self, n1, n2):
         if isinstance(n1, Effect):
@@ -210,5 +221,5 @@ class Player:
         temp = temp + "MONEY: $" + str(self.getMoney()) + "\n" 
         temp = temp + "HEALTH: " + str(self.getHealth()) + "\\" + str(self.getMaxHealth()) + "\n"
         temp = temp + self.__xp.toString() + "\n"
-        temp = temp + "------------------------"
+        temp = temp + "--------------------------"
         return temp

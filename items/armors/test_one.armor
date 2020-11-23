@@ -1,0 +1,4 @@
+type:armor
+name:testarmor23
+desc:this is test
+cost:[10-11]

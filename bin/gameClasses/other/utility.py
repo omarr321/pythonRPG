@@ -39,5 +39,4 @@ def sortList(itemList, arrInt):
                 else:
                     together.append(top[0])
                     top.remove(top[0])
-
         return together

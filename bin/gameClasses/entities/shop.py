@@ -8,10 +8,11 @@ from ..other import Inv
 
 class Shop:
     __path = os.path.join(os.getcwd(), "items")
-    __inv = Inv()
+    __inv = None
     __name = ""
 
     def __init__(self, itemCount, playerLevel):
+        self.__inv = Inv()
         if itemCount < 1:
             raise Exception("itemCount must be greater then 0")
 
@@ -48,9 +49,9 @@ class Shop:
         if len(files) == 0:
             raise Exception("There are no potion files to choose from!")
 
-        print(armorList)
-        print(weaponList)
-        print(potionList)
+        #print(armorList)
+        #print(weaponList)
+        #print(potionList)
 
         for _ in range(0, itemCount):
             rand = random.randrange(1,4)
@@ -97,13 +98,31 @@ class Shop:
     def buyItem(self, index):
         return self.__inv.removeItem(index)
 
+    def getCost(self, index):
+        temp = self.__inv.getItem(index)
+        if isinstance(temp, Weapon):
+            return temp.getCostValue()
+        elif isinstance(temp, Armor):
+            return temp.getCostValue()
+        elif isinstance(temp, Potion):
+            return temp.getCostValue()
+
+    def getLenght(self):
+        return self.__inv.getLen()
+
     def toString(self):
         temp = "Welcome to " + self.__name + "\n----------------------------------------------------\n"
-        temp = temp + self.__inv.toString(numbered=True)
+        if self.__inv.toString(numbered=True) == "Your inventory is empty!\n":
+            temp = temp + "There are no items to display!\n"
+        else:
+            temp = temp + self.__inv.toString(numbered=True)
         return temp
 
-    def getInfo(self, id):
-        return self.__inv.getItem(id)[0].toString()
+    def getItem(self, id):
+        return self.__inv.getItem(id)
+
+    def sellItem(self, item):
+        self.__inv.addItem(item)
 
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")

@@ -6,6 +6,9 @@ from .effect import EffectStatus
 class Item:
     __effects = list()
 
+    def __init__(self):
+        self.__effects = list()
+
     def getStringValue(self, key, path, fileName):
         f = open(os.path.join(path, fileName))
         for line in f:

@@ -8,17 +8,17 @@ from ..items import Weapon
 from .utility import sortList
 
 class Inv:
-    __inv = list()
+    __inv = None
 
     def __init__(self):
-        pass
+        self.__inv = list()
 
     def getItem(self, id):
         if id <= 0 or id > len(self.__inv):
             return None
         else:
             id = id - 1
-            return self.__inv[id]
+            return self.__inv[id][0]
 
     def addItem(self, item):
         if isinstance(item, Item):
@@ -29,23 +29,25 @@ class Inv:
 
     def removeItem(self, id):
         if id <= 0 or id > len(self.__inv):
+            return None
+        else:
             id = id - 1
-            self.__inv.remove(id)
+            return self.__inv.pop(id)[0]
 
     def getlist(self, item):
         temp = Inv()
         if isinstance(item, Weapon):
             for x in self.__inv:
-                if isinstance(x, Weapon):
-                    temp.addItem(x)
+                if isinstance(x[0], Weapon):
+                    temp.addItem(x[0])
         elif isinstance(item, Armor):
             for x in self.__inv:
-                if isinstance(x, Armor):
-                    temp.addItem(x)
+                if isinstance(x[0], Armor):
+                    temp.addItem(x[0])
         elif isinstance(item, Potion):
             for x in self.__inv:
-                if isinstance(x, Potion):
-                    temp.addItem(x)
+                if isinstance(x[0], Potion):
+                    temp.addItem(x[0])
         else:
             return None
 
@@ -59,18 +61,26 @@ class Inv:
                 temp = "You have no Armors!"
             return temp
         else:
-            return temp.toString()
+            return temp.toString(True)
 
     def sort(self):
+        armorE = list()
+        weaponE = list()
         armor = list()
         weapon = list()
         potion = list()
             
         for x in self.__inv:
             if isinstance(x[0], Armor):
-                armor.append(x)
+                if x[1] == True:
+                    armorE.append(x)
+                else:
+                    armor.append(x)
             elif isinstance(x[0], Weapon):
-                weapon.append(x)
+                if x[1] == True:
+                    weaponE.append(x)
+                else:
+                    weapon.append(x)
             else:
                 potion.append(x)
         
@@ -79,6 +89,11 @@ class Inv:
         potion = sortList(potion, 0)
 
         together = list()
+        
+        for x in armorE:
+            together.append(x)
+        for x in weaponE:
+            together.append(x)
         
         for x in armor:
             together.append(x)
@@ -91,48 +106,58 @@ class Inv:
 
         self.__inv = together
 
-    def __unequip(self,id):
+    def unequip(self,id):
         if id <= 0 or id > len(self.__inv):
             id = id - 1
             self.__inv[id][1] = False
-            return True
-        return False
+            return self.__inv[id]
+        return None
 
     def equip(self, id):
         if isinstance(self.__inv[id][0], Potion):
-            print("You can not equip a Potion!")
             return None
-        elif isinstance(self.__inv[id][0], Weapon):
-            for x in self.__inv:
+
+        for x in self.__inv:
+            if isinstance(self.__inv[id][0], Weapon):
                 if isinstance(x[0], Weapon):
                     x[1] = False
-        else:
-            for x in self.__inv:
+            elif isinstance(self.__inv[id][0], Armor):
                 if isinstance(x[0], Armor):
                     x[1] = False
 
-        if id <= 0 or id > len(self.__inv):
-            id = id - 1
-            self.__inv[id][1] = True
-            return self.__inv[id][0]
-        return None
+        self.__inv[id][1] = True
+        return self.__inv[id][0]
 
-    def toString(self, numbered=False):
+    def getLen(self):
+        return len(self.__inv)
+
+    def toString(self, numbered=False, equiped=False):
+        self.sort()
+
         if len(self.__inv) == 0:
-            return "Your inventory is empty!"
+            return "Your inventory is empty!\n"
 
         temp = ""
-        if numbered:
-            for c, x in enumerate(self.__inv):
+
+        for c, x in enumerate(self.__inv):
+            if numbered:
                 if c < 9:
-                    temp = temp + "0" + str(c+1) + " | " + x[0].toStringLine() + "\n"
+                    temp = temp + "0" + str(c+1) + " | "
                 else:
-                    temp = temp + str(c+1) + " | " + x[0].toStringLine() + "\n"
-            return temp
-        else:
-            for x in self.__inv:
-                temp = temp + x[0].toStringLine() + "\n"
-            return temp
+                    temp = temp + str(c+1) + " | "
+
+            temp = temp + x[0].toStringLine()
+
+            if  equiped:
+                temp = temp + " | "
+                if x[1] == False:
+                    temp = temp + "--------"
+                else:
+                    temp = temp + "EQUIPPED"
+
+            temp = temp + "\n"
+
+        return temp
 
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")

@@ -4,8 +4,7 @@ import sys
 import os
 import time
 import random
-from bin.gameClasses.items import Potion
-from bin.gameClasses.items import Weapon
+from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
 from bin.gameClasses.entities import Shop
 
@@ -15,26 +14,226 @@ class Game:
     __player = ""
 
     def __init__(self):
-        print("What is your name: ", end="")
-        self.__player = Player(input())
+        print("What is your name? ")
+        temp = ""
+        while True:
+            print(">>>", end="")
+            temp = input()
+            flag = True
+            for x in temp:
+                xFlag = True
+                yFlag = True
+                zFlag = True
+                if not x.isalpha():
+                    xFlag=False
+                if not x.isspace():
+                    yFlag = False
+                if not x == '-':
+                    zFlag = False
+
+                if not(xFlag == True or yFlag == True or zFlag == True):
+                    print("Error: name can only contain letter, spaces,and hyphons!")
+                    flag = False
+                    break
+            if flag:
+                break
+
+            
+
+        self.__player = Player(temp)
         #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
-        #temp = Shop(10, 1)
-        #print(temp.toString())
-        #input()
-        #self.__player.getInv().addItem(Weapon("test", 1))
-        #self.__player.equipItem(0)
+        self.__player.addMoney(1000)
         #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
 
         self.clearScreen()
 
 
     def play(self):
+        #self.visitShop()
         temp =  random.randrange(5, 15)
         for _ in range(0, temp):
             self.fightMonster()
+        
+        self.fightMonster()
     
+    def getInput(self, numOfoptions):
+        while(True):
+                print(">>>",end="")
+                temp = input()
+
+                try:
+                    temp = int(temp)
+                    if (temp < 1 or temp > numOfoptions):
+                        print("Error: Number out of range!")
+                    else:
+                        break
+                except ValueError:
+                    print("Error: You did not enter a number!")
+        return temp
+
+    def useInv(self, printable=False):
+        while(True):
+            self.clearScreen()
+            print("Inventory:")
+            print("----------------------------------------------------")
+            print(self.__player.getInv().toString(True, True), end="")
+            print("----------------------------------------------------")
+            if printable:
+                return None
+            print("What would you like to do?")
+            print("1 | Equip Item")
+            print("2 | More Info")
+            print("3 | Back")
+            print("4 | Quit")
+            temp = self.getInput(4)
+            if temp == 1:
+                if self.__player.getInv().toString(True, True) == "Your inventory is empty!\n":
+                    print("There are no items in your inventory to equip!")
+                    print("Type anything to contine...", end="")
+                    input()
+                else:
+                    print("What item would you like to equip?")
+                    temp = self.getInput(self.__player.getInvLen())
+                    self.__player.equipItem(temp-1)
+            elif temp == 2:
+                if self.__player.getInv().toString(True, True) == "Your inventory is empty!\n":
+                    print("There are no items in your inventory to see more info for!")
+                else:
+                    print("What item would you like to see info for?")
+                    temp = self.getInput(self.__player.getInvLen())
+                    self.clearScreen()
+                    temp = self.__player.getInv().getItem(temp)
+                    if isinstance(temp, Weapon):
+                        print("----------------------------------------------------")
+                        print(temp.toString(), end="")
+                        print("----------------------------------------------------")
+                        print("Type anything to contine...")
+                    elif isinstance(temp, Potion):
+                        print("----------------------------------------------------")
+                        print(temp.toString(), end="")
+                        print("----------------------------------------------------")
+                        print("Type anything to contine...")
+                    elif isinstance(temp, Armor):
+                        print("----------------------------------------------------")
+                        print(temp.toString(), end="")
+                        print("----------------------------------------------------")
+                print("Type anything to contine...", end="")
+                input()
+            elif temp == 3:
+                return None
+            elif temp == 4:
+                print("Goodbye!")
+                exit(0)
+
+        
+
+
     def visitShop(self):
-        pass
+        temp = random.randrange(5, 15)
+        currShop = Shop(temp, self.__player.getXP().getLevel())
+        while(True):
+            self.clearScreen()
+            print(currShop.toString(), end="")
+            print("--------------")
+            print("MONEY: $" + str(self.__player.getMoney()))
+            print("----------------------------------------------------")
+            print("What would you like to do?")
+            print("1 | Buy Item")
+            print("2 | Sell Item")
+            print("3 | More Info")
+            print("4 | Inventory")
+            print("5 | Contine")
+            print("6 | Save Game")
+            print("7 | Quit")
+            temp = self.getInput(7)
+            if temp == 1:
+                if currShop.getLenght() == 0:
+                    print("There are no items to buy!")
+                    print("Type anything to contine...", end="")
+                    input()
+                else:
+                    print("What item would you like to buy?")
+                    temp = self.getInput(currShop.getLenght())
+                    if currShop.getCost(temp) > self.__player.getMoney():
+                        print ("You do not have enough money!")
+                    else:
+                        temp = currShop.buyItem(temp)
+                        if isinstance(temp, Weapon):
+                            self.__player.removeMoney(temp.getCostValue())
+                            temp.halfCostValue()
+                            self.__player.getInv().addItem(temp)
+                        elif isinstance(temp, Armor):
+                            self.__player.removeMoney(temp.getCostValue())
+                            temp.halfCostValue()
+                            self.__player.getInv().addItem(temp)
+                        elif isinstance(temp, Potion):
+                            self.__player.removeMoney(temp.getCostValue())
+                            temp.halfCostValue()
+                            self.__player.getInv().addItem(temp)
+            elif temp == 2:
+                self.useInv(True)
+                if  self.__player.getInvLen() == 0:
+                    print("You have no items to sell!")
+                    print("Type anything to contine...", end="")
+                    input()
+                else:
+                    print("What item would you like to sell?")
+                    temp = self.getInput(self.__player.getInvLen())
+                    temp = self.__player.getInv().removeItem(temp)
+                    if isinstance(temp, Weapon):
+                        self.__player.removeMoney(temp.getCostValue())
+                        temp.doubleCostValue()
+                        currShop.sellItem(temp)
+                    elif isinstance(temp, Armor):
+                        self.__player.removeMoney(temp.getCostValue())
+                        temp.doubleCostValue()
+                        currShop.sellItem(temp)
+                    elif isinstance(temp, Potion):
+                        self.__player.removeMoney(temp.getCostValue())
+                        temp.doubleCostValue()
+                        currShop.sellItem(temp)
+            elif temp == 3:
+                if currShop.getLenght() == 0:
+                    print("There are no items in the shop to see more info for!")
+                else:
+                    print("What item would you like to see info for?")
+                    temp = self.getInput(currShop.getLenght())
+                    self.clearScreen()
+                    temp = currShop.getItem(temp)
+                    if isinstance(temp, Weapon):
+                        print("----------------------------------------------------")
+                        print(temp.toString(), end="")
+                        print("----------------------------------------------------")
+                    elif isinstance(temp, Potion):
+                        print("----------------------------------------------------")
+                        print(temp.toString(), end="")
+                        print("----------------------------------------------------")
+                    elif isinstance(temp, Armor):
+                        print("----------------------------------------------------")
+                        print(temp.toString(), end="")
+                        print("----------------------------------------------------")
+                print("Type anything to contine...", end="")
+                input()
+            elif temp == 4:
+                self.useInv()
+            elif temp == 5:
+                print("Are you sure you want to contine?")
+                print("1 | Yes")
+                print("2 | No")
+                temp = self.getInput(2)
+                if temp == 1:
+                    print("Thank you for visiting my shop! Please come again!")
+                    print("Type anything to contine...", end="")
+                    input()
+                    return None
+            elif temp == 6:
+                #TODO: Implement saving
+                print("Error: Saving is not implemented!")
+                print("Type anything to contine...", end="")
+                input()
+            elif temp == 7:
+                print("Goodbye!")
+                exit(0)
 
     def fightMonster(self):
         (_, _, files) = next(os.walk("monsters"))
@@ -50,20 +249,9 @@ class Game:
             print("What would you like to do?")
             print("1 | Attack")
             print("2 | Use Potion")
-            print("3 | See inventory")
+            print("3 | Inventory")
             print("4 | Quit")
-            while(True):
-                print(">>>",end="")
-                temp = input()
-
-                try:
-                    temp = int(temp)
-                    if (temp < 1 or temp > 4):
-                        print("Error: Number out of range!")
-                    else:
-                        break
-                except ValueError:
-                    print("Error: You did not enter a number!")
+            temp = self.getInput(4)
             if (temp == 1):
                 totalPlayerAtt = 0
                 self.clearScreen()
@@ -131,21 +319,20 @@ class Game:
                     print("Good Bye!")
                     sys.exit(0)
 
-                print("Type anything to contine...")
+                print("Type anything to contine...", end="")
                 input()
                 self.clearScreen()
                     
             elif (temp == 2):
                 self.clearScreen()
-                print(self.__player.getInv().getlist(Potion("default", 0)))
-                print("Type anything to contine...")
+                #TODO: Fix potion list thing
+                print("Error: Potion useage is broken!")
+                print("Type anything to contine...", end="")
                 input()
                 self.clearScreen()
             elif (temp == 3):
                 self.clearScreen()
-                print(self.__player.getInv().toString())
-                print("Type anything to contine...")
-                input()
+                self.useInv()
                 self.clearScreen()
             elif (temp == 4):
                 print("Good Bye!")
