@@ -235,6 +235,7 @@ class Game:
                 print("Goodbye!")
                 exit(0)
 
+    #TODO:Make it so the monster drops items sometimes.
     def fightMonster(self):
         (_, _, files) = next(os.walk("monsters"))
         if len(files) == 0:

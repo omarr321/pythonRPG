@@ -3,6 +3,7 @@ import random
 from .effect import Effect
 from .effect import EffectStatus
 
+#TODO: Improve the item class so the weapon, potion, and armor uses it better.
 class Item:
     __effects = list()
 
