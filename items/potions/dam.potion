@@ -1,4 +1,4 @@
 type:potion
-name:Heal Potion
+name:Damage Potion
 desc:this is test
 cost:[1-2]

@@ -51,17 +51,7 @@ class Inv:
         else:
             return None
 
-        if temp.toString() == "Your inventory is empty!":
-            temp = ""
-            if isinstance(item, Potion):
-                temp = "You have no potions!"
-            elif isinstance(item, Weapon):
-                temp = "You have no Weapons!"
-            elif isinstance(item, Armor):
-                temp = "You have no Armors!"
-            return temp
-        else:
-            return temp.toString(True)
+        return temp
 
     def sort(self):
         armorE = list()

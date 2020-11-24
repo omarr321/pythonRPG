@@ -1,6 +1,7 @@
 import os
 import random
 import re
+import pickle
 from ..items import Armor
 from ..items import Weapon
 from ..items import Potion
@@ -48,10 +49,6 @@ class Shop:
                     potionList.append(x)
         if len(files) == 0:
             raise Exception("There are no potion files to choose from!")
-
-        #print(armorList)
-        #print(weaponList)
-        #print(potionList)
 
         for _ in range(0, itemCount):
             rand = random.randrange(1,4)

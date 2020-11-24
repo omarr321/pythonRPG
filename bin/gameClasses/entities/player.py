@@ -107,6 +107,9 @@ class Player:
     def getInvLen(self):
         return self.__inv.getLen()
 
+    def getName(self):
+        return self.__name
+
     def __getAttackMutipler(self, n1, n2):
         if isinstance(n1, Effect):
             if isinstance(n2, Effect):

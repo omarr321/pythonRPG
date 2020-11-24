@@ -4,6 +4,7 @@ import sys
 import os
 import time
 import random
+import pickle
 from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
 from bin.gameClasses.entities import Shop
@@ -11,50 +12,91 @@ from bin.gameClasses.entities import Shop
 #sys.path.append(os.path.abspath(os.path.join("bin", "gameClasses")))  
 
 class Game:
-    __player = ""
+    __loaded = False
+    __shop = None
+    __player = None
+    __savePath = os.path.join(os.getcwd(), "bin", "saves")
 
     def __init__(self):
-        print("What is your name? ")
-        temp = ""
-        while True:
-            print(">>>", end="")
-            temp = input()
-            flag = True
-            for x in temp:
-                xFlag = True
-                yFlag = True
-                zFlag = True
-                if not x.isalpha():
-                    xFlag=False
-                if not x.isspace():
-                    yFlag = False
-                if not x == '-':
-                    zFlag = False
+        while (True):
+            self.clearScreen()
+            print("Welcome to FightGame the game the tv show the movie the remaster the super edtion the remake native 4k UHD High Dynamic Range 144hz the sequal the Netflex adaptation the game (VR supported + full body tracking)!")
+            print("What would you like to do?")
+            print("1 | Play game")
+            print("2 | Credits")
+            print("3 | Exit")
+            temp = self.getInput(3)
 
-                if not(xFlag == True or yFlag == True or zFlag == True):
-                    print("Error: name can only contain letter, spaces,and hyphons!")
-                    flag = False
+            if temp == 1:
+                self.clearScreen()
+                print("What is your name? ")
+                temp = ""
+                while True:
+                    print(">>>", end="")
+                    temp = input()
+                    flag = True
+                    for x in temp:
+                        xFlag = True
+                        yFlag = True
+                        zFlag = True
+                        if not x.isalpha():
+                            xFlag=False
+                        if not x.isspace():
+                            yFlag = False
+                        if not x == '-':
+                            zFlag = False
+
+                        if not(xFlag == True or yFlag == True or zFlag == True):
+                            print("Error: name can only contain letter, spaces,and hyphons!")
+                            flag = False
+                            break
+                    if flag:
+                        break
+
+                try:
+                    print("Loading save game...", end="")
+                    self.__shop=pickle.load(open(os.path.join(self.__savePath, temp + "Shop.save"), "rb"))
+                    self.__player=pickle.load(open(os.path.join(self.__savePath, temp + "Player.save"), "rb"))
+                    print("Done!")
+                    self.__loaded = True
+                    time.sleep(3)
+                    print("Starting game...")
+                    time.sleep(3)
                     break
-            if flag:
-                break
+                except FileNotFoundError:
+                    print("Error: There is not save file with that name!")
+                    time.sleep(3)
+                    print("Starting new game...")
+                    time.sleep(3)
+                    self.__player = Player(temp)
+                    break
+                except pickle.UnpicklingError:
+                    print("Error: There was a problem loading the save files!")
+                    print("Type anything to contine...", end="")
+                    input()
+                    print("Goodbye!")
+                    exit(1)
 
-            
-
-        self.__player = Player(temp)
-        #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
-        self.__player.addMoney(1000)
-        #!--FOR TESTING DO NOT KEEP IN AFTER FINAL RLEASE--!#
+            elif temp == 2:
+                self.clearScreen()
+                print("Game Design by: Omar Radwan")
+                print("Game Programmer by: Omar Radwan")
+            elif temp == 3:
+                print("Goodbye!")
+                exit(0)
+            print("Type anything to contine...", end="")
+            input()
 
         self.clearScreen()
 
 
     def play(self):
-        #self.visitShop()
-        temp =  random.randrange(5, 15)
-        for _ in range(0, temp):
-            self.fightMonster()
-        
-        self.fightMonster()
+        if self.__loaded:
+            self.visitShop(shop=self.__shop)
+        while(True):
+            for _ in range(0, 10):
+                self.fightMonster()
+            self.visitShop()
     
     def getInput(self, numOfoptions):
         while(True):
@@ -128,9 +170,13 @@ class Game:
         
 
 
-    def visitShop(self):
-        temp = random.randrange(5, 15)
-        currShop = Shop(temp, self.__player.getXP().getLevel())
+    def visitShop(self, shop=None):
+        currShop = None
+        if shop == None:
+            currShop = Shop(random.randrange(5,15), self.__player.getXP().getLevel())
+        else:
+            currShop = shop
+
         while(True):
             self.clearScreen()
             print(currShop.toString(), end="")
@@ -222,13 +268,22 @@ class Game:
                 print("2 | No")
                 temp = self.getInput(2)
                 if temp == 1:
+                    self.clearScreen()
                     print("Thank you for visiting my shop! Please come again!")
                     print("Type anything to contine...", end="")
                     input()
+                    self.clearScreen()
                     return None
             elif temp == 6:
-                #TODO: Implement saving
-                print("Error: Saving is not implemented!")
+                print("Saving...", end="")
+                playerName = self.__player.getName() + "Player.save"
+                shopName = self.__player.getName() + "Shop.save"
+                try:
+                    pickle.dump(self.__player, open(os.path.join(self.__savePath, playerName), "wb"))
+                    pickle.dump(currShop, open(os.path.join(self.__savePath, shopName), "wb"))
+                    print("Done!")
+                except pickle.PicklingError:
+                    print("Error: Can not pickle the player or the shop")
                 print("Type anything to contine...", end="")
                 input()
             elif temp == 7:
@@ -290,6 +345,22 @@ class Game:
                     time.sleep(1)
                     self.__player.addXP(xp)
                     time.sleep(3)
+                    temp = random.randrange(0,10)
+                    #TODO: Finsh this!
+                    if temp <= 3:
+                        temp = random.randrange(0,10)
+                        if temp <= 6:
+                            #one items
+                            pass
+                        elif temp > 6 and temp <= 9:
+                            #two items
+                            pass
+                        elif:
+                            #three items
+                            pass
+                    else:
+                        print("The monster did not drop anything!")
+                    time.sleep(3)
                     self.clearScreen()
                     break
 
@@ -326,10 +397,73 @@ class Game:
                     
             elif (temp == 2):
                 self.clearScreen()
-                #TODO: Fix potion list thing
-                print("Error: Potion useage is broken!")
-                print("Type anything to contine...", end="")
-                input()
+                temp = self.__player.getInv().getlist(Potion("default", 0))
+                if temp.getLen() == 0:
+                    print("----------------------------------------------------")
+                    print("You have no potions!")
+                    print("----------------------------------------------------")
+                else:
+                    print("----------------------------------------------------")
+                    print(temp.toString(True))
+                    print("----------------------------------------------------")
+                    print("What potion would you like to use?")
+                    userIn = self.getInput(temp.getLen())
+                    temp = temp.removeItem(userIn)
+                    print(str(temp))
+                    print("Who would you like it to effect?")
+                    print("1 | You")
+                    print("2 | Monster")
+                    userIn = self.getInput(2)
+
+                    self.clearScreen()
+                    self.__player.getInv().removeItem(userIn)
+                    if isinstance(temp, Potion):
+                        temp = temp.getEffects()
+                        for x in temp:
+                            if isinstance(x, Effect):
+                                currHeal = x.getRandom()
+                                if x.getType() == EffectStatus.HEAL:
+                                    if userIn == 1:
+                                        self.__player.addHealth(currHeal)
+                                        print("You healed " , currHeal, " health!")
+                                    else:
+                                        monst.heal(currHeal)
+                                        print("The monster healed ", currHeal, " health!")
+                                elif x.getType() == EffectStatus.DAMAGE:
+                                    if userIn == 1:
+                                        self.__player.subHealth(currHeal)
+                                        print("You took", currHeal, " damage!")
+                                    else:
+                                        monst.attack(currHeal)
+                                        print("The monster took ", currHeal, " damage!")
+                        
+                        time.sleep(3)
+                        if self.__player.isDead():
+                            self.clearScreen()
+                            print("YOU HAVE DIED!")
+                            print("Type anything to contine...", end="")
+                            input()
+                            print("Good Bye!")
+                            sys.exit(0)
+
+                        if monst.isDead():
+                            self.clearScreen()
+                            print("You killed the monster!")
+                            time.sleep(3)
+                            money =  monst.getReward()
+                            self.__player.addMoney(money)
+                            print("You gained $" + str(money) + "!")
+                            time.sleep(3)
+                            xp = monst.getXp()
+                            print("You gained " + str(xp) + " XP!")
+                            time.sleep(1)
+                            self.__player.addXP(xp)
+                            time.sleep(3)
+                            self.clearScreen()
+                            break
+                        
+                    print("Type anything to contine...", end="")
+                    input()
                 self.clearScreen()
             elif (temp == 3):
                 self.clearScreen()
@@ -338,6 +472,57 @@ class Game:
             elif (temp == 4):
                 print("Good Bye!")
                 exit(0)
+
+    def genRandomItem(self):
+        path = os.path.join(os.getcwd(), "items")
+        temp = random.randrange(0, 3)
+        currList = list()
+
+        if temp == 0:
+            regex = re.compile('Effect[1-9]{1}([0-9]{0,}.potion)$')
+            path = os.path.join(self.__path, "potions")
+            (__, __, files) = next(os.walk(path))
+            if len(files) == 0:
+                raise Exception("There are no potion files to choose from!")
+            for x in files:
+            if not x == "default.potion":
+                if not regex.search(x):
+                    currList.append(x)
+            rand = random.randrange(0, len(currList))
+            temp = currList[rand].split(".")[0]
+            temp = Potion(temp, self.__player.getXP().getLevel())
+            return temp
+
+        elif temp == 1:
+            regex = re.compile('Effect[1-9]{1}([0-9]{0,}.weapon)$')
+            path = os.path.join(self.__path, "weapons")
+            (__, __, files) = next(os.walk(path))
+            if len(files) == 0:
+                raise Exception("There are no weapon files to choose from!")
+            for x in files:
+            if not x == "default.weapon":
+                if not regex.search(x):
+                    currList.append(x)
+            rand = random.randrange(0, len(currList))
+            temp = currList[rand].split(".")[0]
+            temp = Weapon(temp, self.__player.getXP().getLevel())
+            return temp
+        elif temp == 2:
+            regex = re.compile('Effect[1-9]{1}([0-9]{0,}.armor)$')
+            path = os.path.join(self.__path, "armors")
+            (__, __, files) = next(os.walk(path))
+            if len(files) == 0:
+                raise Exception("There are no armor files to choose from!")
+            for x in files:
+            if not x == "default.armor":
+                if not regex.search(x):
+                    currList.append(x)
+            rand = random.randrange(0, len(currList))
+            temp = currList[rand].split(".")[0]
+            temp = Armor(temp, self.__player.getXP().getLevel())
+            return temp
+        return None
+
 
     def clearScreen(self):
         for _ in range(0, 50):

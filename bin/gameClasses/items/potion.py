@@ -53,8 +53,8 @@ class Potion(Item):
 
     def toString(self):
         temp = "NAME: " + str(self.__name)
-        temp = temp + "\t" + str(self.__desc)
-        temp = temp + "COST: " + str(self.__cost) + "\n"
+        temp = temp + "\n\t" + str(self.__desc)
+        temp = temp + "\nCOST: " + str(self.__cost) + "\n"
         temp = temp + "EEFECTS:\n"
         effectList = self.getEffects()
         if len(effectList) == 0:
@@ -62,7 +62,7 @@ class Potion(Item):
         else:
             for x in effectList:
                 if isinstance(x, Effect):
-                    temp = temp + x.toStringLine()
+                    temp = temp + "\t" + x.toStringLine()
 
         return temp
 
@@ -76,12 +76,5 @@ class Potion(Item):
             for _ in range(0,leng):
                 nameN = nameN + " "
         return "TYPE: Potion   " + " NAME: " + str(nameN) + " COST: " + str(self.__cost)
-
-    def toSave(self):
-        temp = "type:potion\n"
-        temp = temp + "name:" + self.__name + "\n"
-        temp = temp + "desc:" + self.__desc + "\n"
-        temp = temp + "cost:" + str(self.__cost) + "\n"
-
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")

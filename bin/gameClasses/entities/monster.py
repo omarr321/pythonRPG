@@ -105,6 +105,9 @@ class Monster:
     def attack(self, value):
         self.__hp = self.__hp - int(value)
 
+    def heal(self, value):
+        self.__hp = self.__hp + int(value)
+
     def isDead(self):
         if self.__hp <= 0:
             return True

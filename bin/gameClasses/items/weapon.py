@@ -82,11 +82,5 @@ class Weapon(Item):
                 nameN = nameN + " "
         return "TYPE: Weapon   " + " NAME: " + str(nameN) + " COST: " + str(self.__cost)
 
-    def toSave(self):
-        temp = "type:weapon\n"
-        temp = temp + "name:" + self.__name + "\n"
-        temp = temp + "desc:" + self.__desc + "\n"
-        temp = temp + "cost:" + str(self.__cost) + "\n"
-
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")
