@@ -27,11 +27,6 @@ class Effect:
         self.__range = random.randrange(self.__range[0], self.__range[1]+1)
         self.__solved = True
 
-    def toSave(self):
-        temp = "range:[" + str(self.__range[0]) + "-" + str(self.__range[1]) + "]\n"
-        temp = temp + "type:" + str(self.__type.value)
-        return temp
-
     def toString(self):
         temp = "TYPE: " + self.__type.value + "\n"
         temp = "RANGE: [" + self.__range[0] + "-" + self.__range[1] + "]\n"

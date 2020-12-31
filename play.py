@@ -5,6 +5,7 @@ import os
 import time
 import random
 import pickle
+import re
 from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
 from bin.gameClasses.entities import Shop
@@ -69,6 +70,8 @@ class Game:
                     print("Starting new game...")
                     time.sleep(3)
                     self.__player = Player(temp)
+                    self.__player.addMoney(100000)
+                    self.__player.addXP(10000000)
                     break
                 except pickle.UnpicklingError:
                     print("Error: There was a problem loading the save files!")
@@ -91,10 +94,12 @@ class Game:
 
 
     def play(self):
+        self.visitShop()
+
         if self.__loaded:
             self.visitShop(shop=self.__shop)
         while(True):
-            for _ in range(0, 10):
+            for _ in range(0, 2):
                 self.fightMonster()
             self.visitShop()
     
@@ -201,8 +206,11 @@ class Game:
                     print("What item would you like to buy?")
                     temp = self.getInput(currShop.getLenght())
                     if currShop.getCost(temp) > self.__player.getMoney():
-                        print ("You do not have enough money!")
+                        print("You do not have enough money!")
+                        print("Type anything to contine...", end="")
+                        input()
                     else:
+                        print("I made it here as well")
                         temp = currShop.buyItem(temp)
                         if isinstance(temp, Weapon):
                             self.__player.removeMoney(temp.getCostValue())
@@ -290,7 +298,6 @@ class Game:
                 print("Goodbye!")
                 exit(0)
 
-    #TODO:Make it so the monster drops items sometimes.
     def fightMonster(self):
         (_, _, files) = next(os.walk("monsters"))
         if len(files) == 0:
@@ -344,22 +351,33 @@ class Game:
                     print("You gained " + str(xp) + " XP!")
                     time.sleep(1)
                     self.__player.addXP(xp)
-                    time.sleep(3)
                     temp = random.randrange(0,10)
                     #TODO: Finsh this!
                     if temp <= 3:
                         temp = random.randrange(0,10)
                         if temp <= 6:
                             #one items
-                            pass
+                            item = self.genRandomItem()
+                            print("The monster dropped " + str(item.getName()) + "!")
+                            self.__player.getInv().addItem(item)
                         elif temp > 6 and temp <= 9:
                             #two items
-                            pass
-                        elif:
+                            for _ in range(0,1):
+                                time.sleep(3)
+                                item = self.genRandomItem()
+                                print("The monster dropped " + str(item.getName()) + "!")
+                                self.__player.getInv().addItem(item)
+                        else:
                             #three items
-                            pass
+                            for _ in range(0,2):
+                                time.sleep(3)
+                                item = self.genRandomItem()
+                                print("The monster dropped " + str(item.getName()) + "!")
+                                self.__player.getInv().addItem(item)
                     else:
+                        time.sleep(3)
                         print("The monster did not drop anything!")
+
                     time.sleep(3)
                     self.clearScreen()
                     break
@@ -480,14 +498,14 @@ class Game:
 
         if temp == 0:
             regex = re.compile('Effect[1-9]{1}([0-9]{0,}.potion)$')
-            path = os.path.join(self.__path, "potions")
+            path = os.path.join(path, "potions")
             (__, __, files) = next(os.walk(path))
             if len(files) == 0:
                 raise Exception("There are no potion files to choose from!")
             for x in files:
-            if not x == "default.potion":
-                if not regex.search(x):
-                    currList.append(x)
+                if not x == "default.potion":
+                    if not regex.search(x):
+                        currList.append(x)
             rand = random.randrange(0, len(currList))
             temp = currList[rand].split(".")[0]
             temp = Potion(temp, self.__player.getXP().getLevel())
@@ -495,28 +513,28 @@ class Game:
 
         elif temp == 1:
             regex = re.compile('Effect[1-9]{1}([0-9]{0,}.weapon)$')
-            path = os.path.join(self.__path, "weapons")
+            path = os.path.join(path, "weapons")
             (__, __, files) = next(os.walk(path))
             if len(files) == 0:
                 raise Exception("There are no weapon files to choose from!")
             for x in files:
-            if not x == "default.weapon":
-                if not regex.search(x):
-                    currList.append(x)
+                if not x == "default.weapon":
+                    if not regex.search(x):
+                        currList.append(x)
             rand = random.randrange(0, len(currList))
             temp = currList[rand].split(".")[0]
             temp = Weapon(temp, self.__player.getXP().getLevel())
             return temp
         elif temp == 2:
             regex = re.compile('Effect[1-9]{1}([0-9]{0,}.armor)$')
-            path = os.path.join(self.__path, "armors")
+            path = os.path.join(path, "armors")
             (__, __, files) = next(os.walk(path))
             if len(files) == 0:
                 raise Exception("There are no armor files to choose from!")
             for x in files:
-            if not x == "default.armor":
-                if not regex.search(x):
-                    currList.append(x)
+                if not x == "default.armor":
+                    if not regex.search(x):
+                        currList.append(x)
             rand = random.randrange(0, len(currList))
             temp = currList[rand].split(".")[0]
             temp = Armor(temp, self.__player.getXP().getLevel())

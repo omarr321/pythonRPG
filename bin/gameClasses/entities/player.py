@@ -15,7 +15,7 @@ class Player:
     __money = 0
     __maxHealth = 100
     __health = 100
-    __attack = [2, 6]
+    __attack = [200, 600]
     __attMod = None
     __defence = [1,2]
     __defMod = None

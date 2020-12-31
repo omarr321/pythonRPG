@@ -3,9 +3,11 @@ import random
 from .effect import Effect
 from .effect import EffectStatus
 
-#TODO: Improve the item class so the weapon, potion, and armor uses it better.
-class Item:
+class Item(object):
     __effects = list()
+    _cost = [0, 0]
+    _name = ""
+    _desc = ""
 
     def __init__(self):
         self.__effects = list()
@@ -47,6 +49,9 @@ class Item:
 
         self.__effects.append(effect)
 
+    def getName(self):
+        return self._name
+
     def getEffects(self):
         return self.__effects
 
@@ -69,6 +74,17 @@ class Item:
             return EffectStatus.DARK
         else:
             return None
+
+    def getCostValue(self):
+        return self._cost
+
+    def halfCostValue(self):
+        self._cost = int(self._cost / 2)
+        if self._cost == 0:
+            self._cost += 1
+
+    def doubleCostValue(self):
+        self._cost = self._cost * 2
 
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")
