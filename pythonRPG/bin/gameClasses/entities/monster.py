@@ -2,9 +2,10 @@ import os
 import random
 from ..items import EffectStatus
 from ..items import Effect
+from ...common import currWorkDir
 
 class Monster:
-    __path = os.path.join(os.getcwd(), "monsters")
+    __path = os.path.join(currWorkDir, "monsters")
     __monsterFile = ""
     __name = ""
     __type = None

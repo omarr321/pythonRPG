@@ -199,9 +199,10 @@ class Player:
             self.__health = self.__maxHealth
 
     def addXP(self, num):
-        if self.__xp.addXP(num):
+        temp = self.__xp.addXP(num)
+        if temp[0]:
             self.__maxHealth = int(self.__maxHealth + (self.__maxHealth/5)*(self.__xp.getLevel()*(self.__xp.getLevel()/7)))
-        return True
+        return temp[1]
 
     def addMoney(self, amount):
         self.__money = self.__money + amount

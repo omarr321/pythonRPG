@@ -9,14 +9,16 @@ import re
 from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
 from bin.gameClasses.entities import Shop
-
-#sys.path.append(os.path.abspath(os.path.join("bin", "gameClasses")))  
+from bin.gameClasses.other import utility
+from bin.common import currWorkDir
 
 class Game:
     __loaded = False
     __shop = None
     __player = None
-    __savePath = os.path.join(os.getcwd(), "bin", "saves")
+
+    
+    __savePath = os.path.join(currWorkDir, "bin", "saves")
 
     def __init__(self):
         while (True):
@@ -71,7 +73,9 @@ class Game:
                     time.sleep(3)
                     self.__player = Player(temp)
                     self.__player.addMoney(100000)
-                    self.__player.addXP(10000000)
+                    temp = self.__player.addXP(10000000)
+                    if temp != 0:
+                        print("You leveled up! x" + str(temp))
                     break
                 except pickle.UnpicklingError:
                     print("Error: There was a problem loading the save files!")
@@ -350,7 +354,9 @@ class Game:
                     xp = monst.getXp()
                     print("You gained " + str(xp) + " XP!")
                     time.sleep(1)
-                    self.__player.addXP(xp)
+                    temp = self.__player.addXP(xp)
+                    if temp != 0:
+                        print("You leveled up! x" + str(temp))
                     temp = random.randrange(0,10)
                     #TODO: Finsh this!
                     if temp <= 3:
@@ -475,7 +481,9 @@ class Game:
                             xp = monst.getXp()
                             print("You gained " + str(xp) + " XP!")
                             time.sleep(1)
-                            self.__player.addXP(xp)
+                            temp = self.__player.addXP(xp)
+                            if temp != 0:
+                                print("You leveled up! x" + str(temp))
                             time.sleep(3)
                             self.clearScreen()
                             break
@@ -492,7 +500,7 @@ class Game:
                 exit(0)
 
     def genRandomItem(self):
-        path = os.path.join(os.getcwd(), "items")
+        path = os.path.join(currWorkDir, "items")
         temp = random.randrange(0, 3)
         currList = list()
 

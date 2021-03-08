@@ -67,7 +67,7 @@ def main():
 		temp = input("Would you like to save this monster (y/n): ")
 		temp = str.lower(temp)
 		if temp == "y" or temp == "yes":
-			path = os.path.join(os.getcwd(), "..", "..", "monsters")
+			path = os.path.join(currWorkDir, "..", "..", "monsters")
 			print("Saving " + str(mType) + ".monster...", end="")
 			f = open(str(mType) + ".monster", "w+")
 			f.write("type:" + str(mType) + "\n")
@@ -79,7 +79,7 @@ def main():
 			f.write("xp:" + "[" + str(xp[0]) + "-" + str(xp[1]) + "]" + "\n")
 			f.write("reward:" + "[" + str(money[0]) + "-" + str(money[0]) + "]" + "\n")
 			f.close()
-			shutil.move(os.path.join(os.getcwd(), mType+".monster"), path)
+			shutil.move(os.path.join(currWorkDir, mType+".monster"), path)
 			print("Done!")
 			print("Have a great day!")
 			break

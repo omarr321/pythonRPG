@@ -76,15 +76,15 @@ def main():
             path = ""
             f = ""
             if itemType == "armor":
-                path = os.path.join(os.getcwd(), "..", "..", "items", "armors")
+                path = os.path.join(currWorkDir, "..", "..", "items", "armors")
                 print("Saving " + str(name) + ".armor...", end="")
                 f = open(str(name) + ".armor", "w+")
             elif itemType == "potion":
-                path = os.path.join(os.getcwd(), "..", "..", "items", "potions")
+                path = os.path.join(currWorkDir, "..", "..", "items", "potions")
                 print("Saving " + str(name) + ".potion...", end="")
                 f = open(str(name) + ".potion", "w+")
             else:
-                path = os.path.join(os.getcwd(), "..", "..", "items", "weapons")
+                path = os.path.join(currWorkDir, "..", "..", "items", "weapons")
                 print("Saving " + str(name) + ".weapon...", end="")
                 f = open(str(name) + ".weapon", "w+")
             
@@ -94,13 +94,13 @@ def main():
             
             if itemType == "armor":
                 f.write("defense:" + "[" + str(gen[0]) + "-" + str(gen[1]) + "]" + "\n")
-                shutil.move(os.path.join(os.getcwd(), name + ".armor"), path)
+                shutil.move(os.path.join(currWorkDir, name + ".armor"), path)
             elif itemType == "potion":
                 f.write("heal:" + "[" + str(gen[0]) + "-" + str(gen[1]) + "]" + "\n")
-                shutil.move(os.path.join(os.getcwd(), name + ".potion"), path)
+                shutil.move(os.path.join(currWorkDir, name + ".potion"), path)
             else:
                 f.write("attack:" + "[" + str(gen[0]) + "-" + str(gen[1]) + "]" + "\n")
-                shutil.move(os.path.join(os.getcwd(), name + ".weapon"), path)
+                shutil.move(os.path.join(currWorkDir, name + ".weapon"), path)
 
             f.write("cost:" + "[" + str(cost[0]) + "-" + str(cost[1]) + "]" + "\n")
             f.close()

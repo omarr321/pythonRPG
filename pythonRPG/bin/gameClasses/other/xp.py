@@ -12,16 +12,19 @@ class XP:
         flag = False
         self.__totalXP = int(self.__totalXP + amount)
         self.__xp = int(self.__xp + amount)
+        count = 0
         while self.__xp >= self.__levelXP:
             if self.__levelCap == 0:
-                print("You leveled up!")
+                #print("You leveled up!")
+                count = count + 1
                 self.__xp = self.__xp - self.__levelXP
                 self.__level = self.__level + 1
                 self.__levelXP = int(self.__levelXP + (self.__levelXP/(self.__level*6))*(self.__level))
                 flag = True
             else:
                 if self.__level != self.__levelCap:
-                    print("You leveled up!")
+                    #print("You leveled up!")
+                    count = count + 1
                     self.__xp = self.__xp - self.__levelXP
                     self.__level = self.__level + 1
                     self.__levelXP = int(self.__levelXP + (self.__levelXP/(self.__level*6))*(self.__level))
@@ -29,7 +32,7 @@ class XP:
                 else:
                     self.__xp = self.__levelXP
                     break
-        return flag
+        return [flag, count]
 
     def getLevel(self):
         return self.__level

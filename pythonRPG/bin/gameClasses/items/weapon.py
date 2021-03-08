@@ -4,9 +4,10 @@ import random
 from .item import Item
 from .effect import Effect
 from .effect import EffectStatus
+from ...common import currWorkDir
 
 class Weapon(Item):
-    __path = os.path.join(os.getcwd(), "items", "weapons")
+    __path = os.path.join(currWorkDir, "items", "weapons")
     __weaponFile = ""
     _cost = [0, 0]
     _name = ""

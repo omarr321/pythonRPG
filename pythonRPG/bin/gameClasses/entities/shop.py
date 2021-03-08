@@ -6,9 +6,10 @@ from ..items import Armor
 from ..items import Weapon
 from ..items import Potion
 from ..other import Inv
+from ...common import currWorkDir
 
 class Shop:
-    __path = os.path.join(os.getcwd(), "items")
+    __path = os.path.join(currWorkDir, "items")
     __inv = None
     __name = ""
 
@@ -69,7 +70,7 @@ class Shop:
                 temp = Potion(temp, playerLevel)
                 self.__inv.addItem(temp)
 
-            path = os.path.join(os.getcwd(), "bin", "lists")
+            path = os.path.join(currWorkDir, "bin", "lists")
 
         name = str(self.__getRandomLine(path, "npcNames.txt")).split(",")[0] + " " + str(self.__getRandomLine(path, "npcNames.txt")).split(",")[0]
         shopDesc = str(self.__getRandomLine(path, "descriptors.txt")).split(",")[0]
