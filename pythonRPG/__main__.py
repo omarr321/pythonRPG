@@ -65,6 +65,7 @@ class Game:
                     time.sleep(3)
                     print("Starting game...")
                     time.sleep(3)
+                    self.play()
                     break
                 except FileNotFoundError:
                     print("Error: There is not save file with that name!")
@@ -72,11 +73,7 @@ class Game:
                     print("Starting new game...")
                     time.sleep(3)
                     self.__player = Player(temp)
-                    self.__player.addMoney(100000)
-                    temp = self.__player.addXP(10000000)
-                    if temp != 0:
-                        print("You leveled up! x" + str(temp))
-                    break
+                    self.play()
                 except pickle.UnpicklingError:
                     print("Error: There was a problem loading the save files!")
                     print("Type anything to contine...", end="")
@@ -98,8 +95,6 @@ class Game:
 
 
     def play(self):
-        self.visitShop()
-
         if self.__loaded:
             self.visitShop(shop=self.__shop)
         while(True):
@@ -303,7 +298,8 @@ class Game:
                 exit(0)
 
     def fightMonster(self):
-        (_, _, files) = next(os.walk("monsters"))
+        temp = os.path.join(currWorkDir, "monsters")
+        (_, _, files) = next(os.walk(temp))
         if len(files) == 0:
             raise Exception("There are no monsters to choose from!")
         rand = random.randrange(0, len(files))
