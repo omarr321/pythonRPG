@@ -64,12 +64,17 @@ def getRange(desc, ttype):
         print("[ - ]")
         print("What is lowest " + str(desc) + " of the " + str(ttype) + "?")
         while(True):
-            print(">>>", end="")
-            try:
-                temp_1 = int(input())
-                break
-            except ValueError:
-                print("Error: You did not enter a number!")
+            while(True):
+                print(">>>", end="")
+                try:
+                    temp_1 = int(input())
+                    break
+                except ValueError:
+                    print("Error: You did not enter a number!")
+            
+            if int(temp_1) < 1:
+                print("Error: Range is invaild!")
+            
     
         clearScreen()
         while(True):
@@ -85,8 +90,8 @@ def getRange(desc, ttype):
                     print("Error: You did not enter a number!")
 
 
-            if int(temp_1) > int(temp_2):
-                print("Error: Range in invaild!")
+            if int(temp_1) >= int(temp_2):
+                print("Error: Range is invaild!")
             else:
                 break
         clearScreen()
