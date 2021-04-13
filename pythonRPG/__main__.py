@@ -12,6 +12,8 @@ from bin.gameClasses.entities import Shop
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
 
+print(os.getcwd())
+
 class Game:
     __loaded = False
     __shop = None
