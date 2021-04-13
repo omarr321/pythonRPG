@@ -7,26 +7,26 @@ import re
 
 # !!!!!-DO NOT CHANGE-!!!!!
 # This is the type of item we are dealing with
-OBJ_TYPE = "armor"
+OBJ_TYPE = "potion"
 # This is the value that shows up in the file for the base
-OBJ_BASE_VALUE = "defense"
+OBJ_BASE_VALUE = "heal"
 # This is what will be printed to screen for the base
-OBJ_BASE_STRING = "protection"
+OBJ_BASE_STRING = "health"
 # This is the path that it will save the files to
 OBJ_PATH = os.path.join(currWorkDir, "items", str(OBJ_TYPE) + "s")
 # This tells the program to pick a value between the range and use it as the range
-OBJ_SOLVED = "false"
+OBJ_SOLVED = "true"
 # !!!!!-DO NOT CHANGE-!!!!!
 
 def main():
     while(True):
-        print("Welcome to ARMOR CREATOR PRO\n")
+        print("Welcome to POTION CREATOR PRO\n")
 
-        print("This program help with the Armor creation process. It will do all the hard")
+        print("This program help with the Potion creation process. It will do all the hard")
         print("work for you. Just answer the question and boom you are all done.\n")
 
         print("What Would you like to do?")
-        print("1 | Create Armor")
+        print("1 | Create Potion")
         print("2 | Help")
         print("3 | Quit")
         print("----------------------")
