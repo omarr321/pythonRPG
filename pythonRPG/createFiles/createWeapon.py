@@ -47,7 +47,7 @@ def createWeapon():
 
     while(True):
         Name = getString("name", str(OBJ_TYPE))
-        regex = re.compile('^' + Name + '.weapon$')
+        regex = re.compile('^' + Name + '.' + str(OBJ_TYPE) + '$')
         (_, _, files) = next(os.walk(OBJ_PATH))
         flag = False
         for x in files:
@@ -92,6 +92,7 @@ def createWeapon():
     clearScreen()
     print("The program will now create the " + str(OBJ_TYPE) + " now")
     pause()
+    clearScreen()
     print("Creating " + str(OBJ_TYPE) + "file...", end="")
 
     namef = Name.replace(" ", "")

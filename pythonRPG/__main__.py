@@ -67,6 +67,7 @@ class Game:
                     time.sleep(3)
                     print("Starting game...")
                     time.sleep(3)
+                    self.clearScreen()
                     self.play()
                     break
                 except FileNotFoundError:
@@ -75,6 +76,7 @@ class Game:
                     print("Starting new game...")
                     time.sleep(3)
                     self.__player = Player(temp)
+                    self.clearScreen()
                     self.play()
                 except pickle.UnpicklingError:
                     print("Error: There was a problem loading the save files!")

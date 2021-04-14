@@ -15,9 +15,9 @@ class Player:
     __money = 0
     __maxHealth = 100
     __health = 100
-    __attack = [2, 6]
+    __attack = [10, 20]
     __attMod = None
-    __defence = [1,2]
+    __defence = [5,15]
     __defMod = None
 
     def __init__(self, name, levelCap=0):

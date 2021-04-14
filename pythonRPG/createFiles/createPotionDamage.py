@@ -47,7 +47,7 @@ def createWeapon():
 
     while(True):
         Name = getString("name", str(OBJ_TYPE))
-        regex = re.compile('^' + Name + '.weapon$')
+        regex = re.compile('^' + Name + '.' + str(OBJ_TYPE) + '$')
         (_, _, files) = next(os.walk(OBJ_PATH))
         flag = False
         for x in files:
@@ -72,26 +72,11 @@ def createWeapon():
     print(str(OBJ_BASE_STRING) + str(BaseValue))
 
     pause()
-    clearScreen()
-    print("How many effects does the " + str(OBJ_TYPE) + " have?")
-    while(True):
-        print(">>>", end="")
-        try:
-            temp = int(input())
-            if temp > 5 or temp < 0:
-                print("Error: The number has to be beween 1 and 5!")
-            else:
-                break
-        except ValueError:
-            print("Error: You did not enter a number!")
-
-    effects = []
-    for _ in range(0, temp):
-        effects.append(getEffect())
 
     clearScreen()
     print("The program will now create the " + str(OBJ_TYPE) + " now")
     pause()
+    clearScreen()
     print("Creating " + str(OBJ_TYPE) + "file...", end="")
 
     namef = Name.replace(" ", "")
@@ -106,14 +91,6 @@ def createWeapon():
     ffile.write("range:" + str(BaseValue) + "\n")
     ffile.write("solved:" + str(OBJ_SOLVED) + "\n")
     ffile.close()
-
-    count = 2
-    for x in effects:
-        ffile = open(os.path.join(OBJ_PATH, str(namef) + "Effect" + str(count) + "." + str(OBJ_TYPE)), "w+")
-        ffile.write("type:" + str(x[0]) + "\n")
-        ffile.write("range:" + str(x[1]) + "\n")
-        ffile.write("solved:" + str(OBJ_SOLVED) + "\n")
-        count = count + 1
     
     print("Done!")
     pause()
