@@ -1,0 +1,8 @@
+name:Ice Frog
+type:ice
+desc:This is a frog with an ice tail
+health:[5-15]
+attack:[3-7]
+defense:[1-5]
+xp:[4-20]
+reward:[5-25]

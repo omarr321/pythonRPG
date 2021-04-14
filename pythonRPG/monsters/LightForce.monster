@@ -1,0 +1,8 @@
+name:Light Force
+type:light
+desc:This is a light orb which is blinding to look at
+health:[30-45]
+attack:[5-15]
+defense:[1-7]
+xp:[15-45]
+reward:[20-25]

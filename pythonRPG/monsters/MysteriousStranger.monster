@@ -1,0 +1,8 @@
+name:Mysterious Stranger
+type:dark
+desc:This is a very mysterious stranger indeed
+health:[10-20]
+attack:[15-25]
+defense:[14-17]
+xp:[5-50]
+reward:[20-40]

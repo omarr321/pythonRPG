@@ -1,0 +1,8 @@
+name:Acid Demon
+type:acid
+desc:This is a demon made of acid
+health:[10-15]
+attack:[5-10]
+defense:[5-20]
+xp:[10-35]
+reward:[10-15]

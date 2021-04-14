@@ -1,0 +1,8 @@
+name:Fire Fairy
+type:fire
+desc:This is a fairy made of pure fire
+health:[3-7]
+attack:[4-6]
+defense:[3-10]
+xp:[10-15]
+reward:[10-15]

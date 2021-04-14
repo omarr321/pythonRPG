@@ -1,0 +1,8 @@
+name:Ice Fairy
+type:ice
+desc:This is a fairy made of pure ice
+health:[3-5]
+attack:[2-6]
+defense:[5-10]
+xp:[10-15]
+reward:[5-10]

@@ -1,0 +1,8 @@
+name:Lava Dragon
+type:fire
+desc:This is a dragon with red scales and fire tail
+health:[15-30]
+attack:[10-12]
+defense:[15-18]
+xp:[1-30]
+reward:[10-20]

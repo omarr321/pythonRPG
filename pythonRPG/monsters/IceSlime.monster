@@ -1,0 +1,8 @@
+name:Ice Slime
+type:ice
+desc:This is a slime that is made of ice
+health:[15-25]
+attack:[5-7]
+defense:[10-15]
+xp:[10-25]
+reward:[10-15]

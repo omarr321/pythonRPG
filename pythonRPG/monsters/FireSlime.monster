@@ -1,0 +1,8 @@
+name:Fire Slime
+type:fire
+desc:This is a slime that is made of fire
+health:[15-25]
+attack:[15-25]
+defense:[15-20]
+xp:[20-30]
+reward:[20-27]

@@ -1,0 +1,8 @@
+name:Acidic Slime
+type:acid
+desc:This is a slime that is very acidic
+health:[15-25]
+attack:[10-12]
+defense:[3-6]
+xp:[13-24]
+reward:[12-17]

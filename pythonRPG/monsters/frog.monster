@@ -1,8 +1,0 @@
-name:frog
-type:fire
-desc:this is a huge frogh with wings and has a tail like a dragon
-health:[5-10]
-attack:[2-4]
-defense:[1-3]
-xp:[100-1000]
-reward:[500-1000]

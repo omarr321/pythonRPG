@@ -1,0 +1,8 @@
+name:Light Wizard
+type:light
+desc:This is a wizard wearing white robes and is holding a birch staff
+health:[15-25]
+attack:[5-10]
+defense:[3-5]
+xp:[15-30]
+reward:[10-30]

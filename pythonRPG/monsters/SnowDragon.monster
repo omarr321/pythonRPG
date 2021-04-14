@@ -1,0 +1,8 @@
+name:Snow Dragon
+type:ice
+desc:This is a dragon with blue scales and a ice tail
+health:[10-15]
+attack:[15-30]
+defense:[15-17]
+xp:[10-13]
+reward:[10-22]

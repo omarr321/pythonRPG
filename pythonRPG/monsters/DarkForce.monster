@@ -1,0 +1,8 @@
+name:Dark Force
+type:dark
+desc:This is a dark orb that seems to be endless
+health:[25-35]
+attack:[3-7]
+defense:[1-4]
+xp:[20-35]
+reward:[15-30]

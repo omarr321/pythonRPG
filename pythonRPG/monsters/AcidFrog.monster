@@ -1,0 +1,8 @@
+name:Acid Frog
+type:acid
+desc:This is a frog that spits acid
+health:[4-12]
+attack:[6-13]
+defense:[3-4]
+xp:[7-17]
+reward:[10-25]

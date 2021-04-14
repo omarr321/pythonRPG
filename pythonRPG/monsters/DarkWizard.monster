@@ -1,0 +1,8 @@
+name:Dark Wizard
+type:dark
+desc:This is a wizard wearing black robes and is holding a dark oak staff
+health:[15-30]
+attack:[7-14]
+defense:[1-2]
+xp:[15-30]
+reward:[15-35]
