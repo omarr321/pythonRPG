@@ -365,21 +365,21 @@ class Game:
                             #one items
                             item = self.genRandomItem()
                             print("The monster dropped " + str(item.getName()) + "!")
-                            self.__player.getInv().addItem(item)
+                            print(str(self.__player.getInv().addItem(item)))
                         elif temp > 6 and temp <= 9:
                             #two items
                             for _ in range(0,1):
                                 time.sleep(3)
                                 item = self.genRandomItem()
                                 print("The monster dropped " + str(item.getName()) + "!")
-                                self.__player.getInv().addItem(item)
+                                print(str(self.__player.getInv().addItem(item)))
                         else:
                             #three items
                             for _ in range(0,2):
                                 time.sleep(3)
                                 item = self.genRandomItem()
                                 print("The monster dropped " + str(item.getName()) + "!")
-                                self.__player.getInv().addItem(item)
+                                print(str(self.__player.getInv().addItem(item)))
                     else:
                         time.sleep(3)
                         print("The monster did not drop anything!")
@@ -433,7 +433,7 @@ class Game:
                     print("What potion would you like to use?")
                     userIn = self.getInput(temp.getLen())
                     temp = temp.removeItem(userIn)
-                    print(str(temp))
+                    print(temp.toString())
                     print("Who would you like it to effect?")
                     print("1 | You")
                     print("2 | Monster")
