@@ -30,7 +30,7 @@ class Potion(Item):
 
         (_, _, files) = next(os.walk(self.__path))
 
-        temp = str.lower(potionName) + "Effect"
+        temp = str(potionName) + "Effect"
         regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).potion$')
         for x in files:
             if regex.match(x):

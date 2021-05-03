@@ -29,7 +29,7 @@ class Armor(Item):
 
         (_, _, files) = next(os.walk(self.__path))
 
-        temp = str.lower(armorName) + "Effect"
+        temp = str(armorName) + "Effect"
         regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).armor$')
         for x in files:
             if regex.match(x):

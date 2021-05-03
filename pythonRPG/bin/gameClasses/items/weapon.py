@@ -29,7 +29,7 @@ class Weapon(Item):
 
         (_, _, files) = next(os.walk(self.__path))
 
-        temp = str.lower(weaponName) + "Effect"
+        temp = str(weaponName) + "Effect"
         regex = re.compile('^' + temp + '[1-9]{1}([0-9]{0,}).weapon$')
 
         effectList = list()
