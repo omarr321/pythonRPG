@@ -20,6 +20,6 @@ You can use the form [here](https://forms.gle/oGyif3WPF89d975y6).
 ## Versions
 version | release date | supported
 ------- | ------------ | ---------
-In-Dev   | 10/17/2020  | :white_check_mark:
+In-Dev 0.4.1   | 10/17/2020  | :white_check_mark:
 ## Credits
 * Omar Radwan - Game Designer and Developer

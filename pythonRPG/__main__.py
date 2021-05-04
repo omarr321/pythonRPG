@@ -25,7 +25,8 @@ class Game:
     def __init__(self):
         while (True):
             self.clearScreen()
-            print("Welcome to FightGame the game the tv show the movie the remaster the super edtion the remake native 4k UHD High Dynamic Range 144hz the sequal the Netflex adaptation the game (VR supported + full body tracking)!")
+            print("Welcome to PythonRPG!")
+            print("version: In-Dev 0.4.1")
             print("What would you like to do?")
             print("1 | Play game")
             print("2 | Credits")
