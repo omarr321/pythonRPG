@@ -16,7 +16,7 @@ To run this game is simple:
 ## How to report bugs
 You can use the form [here](https://forms.gle/oGyif3WPF89d975y6).
 ## Known Bugs
-[x] Items have no effects - FIXED
+- [x] Items have no effects - FIXED
 ## Versions
 version | release date | supported
 ------- | ------------ | ---------
