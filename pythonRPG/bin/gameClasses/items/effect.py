@@ -29,7 +29,10 @@ class Effect:
 
     def toString(self):
         temp = "TYPE: " + self.__type.value + "\n"
-        temp = "RANGE: [" + self.__range[0] + "-" + self.__range[1] + "]\n"
+        if self.__solved:
+            temp = temp + "RANGE: " + str(self.__range) + "\n"
+        else:
+            temp = temp + "RANGE: [" + str(self.__range[0]) + "-" + str(self.__range[1]) + "]\n"
         return temp
 
     def toStringLine(self):

@@ -359,7 +359,6 @@ class Game:
                     if temp != 0:
                         print("You leveled up! x" + str(temp))
                     temp = random.randrange(0,10)
-                    #TODO: Finsh this!
                     if temp <= 3:
                         temp = random.randrange(0,10)
                         if temp <= 6:
