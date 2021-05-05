@@ -176,9 +176,6 @@ class Game:
                 print("Goodbye!")
                 exit(0)
 
-        
-
-
     def visitShop(self, shop=None):
         currShop = None
         if shop == None:
