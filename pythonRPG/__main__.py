@@ -12,8 +12,6 @@ from bin.gameClasses.entities import Shop
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
 
-print(os.getcwd())
-
 class Game:
     __loaded = False
     __shop = None
@@ -61,8 +59,9 @@ class Game:
 
                 try:
                     print("Loading save game...", end="")
-                    self.__shop=pickle.load(open(os.path.join(self.__savePath, temp + "Shop.save"), "rb"))
-                    self.__player=pickle.load(open(os.path.join(self.__savePath, temp + "Player.save"), "rb"))
+                    temp = GameDataController().loadAll(temp)
+                    self.__shop = temp[1]
+                    self.__player = temp[0]
                     print("Done!")
                     self.__loaded = True
                     time.sleep(3)

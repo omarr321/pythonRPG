@@ -23,6 +23,27 @@ class Effect:
         else:
             return random.randrange(self.__range[0], self.__range[1]+1)
 
+    @staticmethod
+    def getStringEffect(i):
+        if i == "heal":
+            return EffectStatus.HEAL
+        elif i == "damage":
+            return EffectStatus.DAMAGE
+        elif i == "defense":
+            return EffectStatus.DEFENSE
+        elif i == "fire":
+            return EffectStatus.FIRE
+        elif i == "ice":
+            return EffectStatus.ICE
+        elif i == "acid":
+            return EffectStatus.ACID
+        elif i == "light":
+            return EffectStatus.LIGHT
+        elif i == "dark":
+            return EffectStatus.DARK
+        else:
+            return None
+
     def setRandom(self):
         self.__range = random.randrange(self.__range[0], self.__range[1]+1)
         self.__solved = True

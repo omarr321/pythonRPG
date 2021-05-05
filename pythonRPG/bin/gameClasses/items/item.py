@@ -2,7 +2,6 @@ import os
 import random
 from .effect import Effect
 from .effect import EffectStatus
-from .gameDataController import GameDataController
 
 class Item(object):
     __effects = list()
@@ -13,15 +12,37 @@ class Item(object):
     def __init__(self):
         self.__effects = list()
 
-    # This method has been moved to the gameDataController Class. This is a
-    # redirect until I make it so then items use the gameDataController class.
     def getStringValue(self, key, path, fileName):
-        return GameDataController().Load().loadString(key, path, fileName)
+        f = open(os.path.join(path, fileName))
+        for line in f:
+            if line.startswith(key + ":"):
+                temp = line.split(":")
+                f.close()
+                return temp[1].rstrip()
+        f.close()
+        raise Exception("Can not find key \"" + str(key) + "\"!")
     
-    # This method has been moved to the gameDataController Class. This is a
-    # redirect until I make it so then items use the gameDataController class.
     def setNumberPair(self, arr, key, path, fileName):
-       return GameDataController().Load().loadNumPair(arr, key, path, fileName)
+        f = open(os.path.join(path, fileName))
+        for line in f:
+            if line.startswith(key + ":"):
+                temp = line.split(":")
+                try:
+                    temp = temp[1].split("[")
+                    temp = temp[1].split("]")
+                    temp = temp[0].split("-")
+                    arr[0] = int(temp[0])
+                    arr[1] = int(temp[1])
+                    f.close()
+                    return
+                except ValueError:
+                    f.close()
+                    raise ValueError("Value is not a number pair!")
+                except IndexError:
+                    f.close()
+                    raise ValueError("Value is not a number pair!")
+        f.close()
+        raise Exception("Can not find key \"" + str(key) + "\"!")
 
     def pairValueToStr(self, arr):
         return str(arr[0]) + "-" + str(arr[1])
@@ -38,25 +59,9 @@ class Item(object):
     def getEffects(self):
         return self.__effects
 
+    # This method has been moved to the effect Class.
     def getFileEffect(self, i):
-        if i == "heal":
-            return EffectStatus.HEAL
-        elif i == "damage":
-            return EffectStatus.DAMAGE
-        elif i == "defense":
-            return EffectStatus.DEFENSE
-        elif i == "fire":
-            return EffectStatus.FIRE
-        elif i == "ice":
-            return EffectStatus.ICE
-        elif i == "acid":
-            return EffectStatus.ACID
-        elif i == "light":
-            return EffectStatus.LIGHT
-        elif i == "dark":
-            return EffectStatus.DARK
-        else:
-            return None
+        return Effect.getStringEffect(i)
 
     def getCostValue(self):
         return self._cost

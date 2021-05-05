@@ -20,7 +20,8 @@ class Potion(Item):
             self._name = name
             self._desc = desc
             self._cost = cost
-            self.__effects = effects
+            for x in effects:
+                super().addEffect(x)
         else:
             playerLevel = playerLevel - 1
             self.__potionFile = str.lower(str(potionName) + ".potion")

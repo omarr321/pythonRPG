@@ -20,12 +20,21 @@ class Player:
     __defence = [5,15]
     __defMod = None
 
-    def __init__(self, name, levelCap=0):
+    def __init__(self, name, levelCap=0, load=False, attMod=None, defMod=None, xp=None, inv=None, money=None, maxHP=None, HP=None):
         self.__name = name
-        self.__xp = XP(levelCap)
-        self.__inv = Inv()
-        self.__attMod = None
-        self.__defMod = None
+        if load:
+            self.__inv = inv
+            self.__xp = xp
+            self.__attMod = attMod
+            self.__defMod = defMod
+            self.__money = money
+            self.__maxHealth = maxHP
+            self.__health = HP
+        else:
+            self.__inv = Inv()
+            self.__xp = XP(levelCap)
+            self.__attMod = None
+            self.__defMod = None
 
     def getHealth(self):
         return self.__health
