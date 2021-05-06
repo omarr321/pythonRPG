@@ -12,10 +12,10 @@ class Player:
     __inv = None
     __xp = None
     __name = ""
-    __money = 0
+    __money = 400
     __maxHealth = 100
     __health = 100
-    __attack = [10, 20]
+    __attack = [100, 200]
     __attMod = None
     __defence = [5,15]
     __defMod = None
@@ -50,6 +50,12 @@ class Player:
 
     def getMoney(self):
         return self.__money
+
+    def getAttMod(self):
+        return self.__attMod
+
+    def getDefMod(self):
+        return self.__defMod
 
     def getAttack(self, monster):
         if isinstance(monster, Monster):

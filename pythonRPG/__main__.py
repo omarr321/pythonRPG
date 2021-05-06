@@ -71,14 +71,14 @@ class Game:
                     self.play()
                     break
                 except FileNotFoundError:
-                    print("Error: There is not save file with that name!")
+                    print("Error: There is no save file with that name!")
                     time.sleep(3)
                     print("Starting new game...")
                     time.sleep(3)
                     self.__player = Player(temp)
                     self.clearScreen()
                     self.play()
-                except pickle.UnpicklingError:
+                except KeyError:
                     print("Error: There was a problem loading the save files!")
                     print("Type anything to contine...", end="")
                     input()
@@ -97,8 +97,8 @@ class Game:
 
         self.clearScreen()
 
-
     def play(self):
+        self.visitShop()
         if self.__loaded:
             self.visitShop(shop=self.__shop)
         while(True):
@@ -157,12 +157,10 @@ class Game:
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
                         print("----------------------------------------------------")
-                        print("Type anything to contine...")
                     elif isinstance(temp, Potion):
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                        print("Type anything to contine...")
+                        print("----------------------------------------------------") 
                     elif isinstance(temp, Armor):
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
@@ -284,20 +282,15 @@ class Game:
                     return None
             elif temp == 6:
                 print("Saving...", end="")
-                playerName = self.__player.getName() + "Player.save"
-                shopName = self.__player.getName() + "Shop.save"
-                try:
-                    pickle.dump(self.__player, open(os.path.join(self.__savePath, playerName), "wb"))
-                    pickle.dump(currShop, open(os.path.join(self.__savePath, shopName), "wb"))
-                    print("Done!")
-                except pickle.PicklingError:
-                    print("Error: Can not pickle the player or the shop")
+                GameDataController.saveAll(GameDataController, self.__player.getName(), self.__player, currShop)
+                print("Done!")
+
                 print("Type anything to contine...", end="")
                 input()
             elif temp == 7:
                 print("Goodbye!")
                 exit(0)
-
+                
     def fightMonster(self):
         temp = os.path.join(currWorkDir, "monsters")
         (_, _, files) = next(os.walk(temp))

@@ -80,5 +80,14 @@ class Armor(Item):
                 nameN = nameN + " "
         return "TYPE: Armor    " + " NAME: " + str(nameN) + " COST: " + str(self._cost)
 
+    def toSave(self):
+        temp = list()
+        temp.append([0, "cost", self._cost])
+        temp.append([0, "name", self._name])
+        temp.append([0, "desc", self._desc])
+        temp.append([2, "effects", super().getEffects()])
+
+        return temp
+
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")

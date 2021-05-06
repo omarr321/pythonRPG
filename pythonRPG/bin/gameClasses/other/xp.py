@@ -50,6 +50,12 @@ class XP:
     def getLevelXP(self):
         return self.__levelXP
 
+    def getLevelCap(self):
+        return self.__levelCap
+
+    def getTotalXP(self):
+        return self.__totalXP
+
     def toString(self):
         return "LEVEL: " + str(self.__level) + "\nXP: " + str(self.__xp) + "\\" + str(self.__levelXP)
 

@@ -9,9 +9,9 @@ from ...common import currWorkDir
 class Potion(Item):
     __path = os.path.join(currWorkDir, "items", "potions")
     __potionFile = ""
-    __cost = [0, 0]
-    __name = ""
-    __desc = ""
+    _cost = [0, 0]
+    _name = ""
+    _desc = ""
 
     def __init__(self, potionName="", playerLevel=1, load=False, name=None, desc=None, cost=None, effects=None):
         Item.__init__(self)
@@ -77,5 +77,15 @@ class Potion(Item):
             for _ in range(0,leng):
                 nameN = nameN + " "
         return "TYPE: Potion   " + " NAME: " + str(nameN) + " COST: " + str(self._cost)
+
+    def toSave(self):
+        temp = list()
+        temp.append([0, "cost", self._cost])
+        temp.append([0, "name", self._name])
+        temp.append([0, "desc", self._desc])
+        temp.append([2, "effects", super().getEffects()])
+
+        return temp
+
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")

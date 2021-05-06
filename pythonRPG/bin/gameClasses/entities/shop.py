@@ -127,5 +127,11 @@ class Shop:
     def sellItem(self, item):
         self.__inv.addItem(item)
 
+    def getName(self):
+        return self.__name
+    
+    def getInv(self):
+        return self.__inv
+
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")

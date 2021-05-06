@@ -149,5 +149,16 @@ class Inv:
 
         return temp
 
+    def toSave(self):
+        temp = list()
+        for x in self.__inv:
+            if isinstance(x[0], Weapon):
+                temp.append([0, x[0]])
+            elif isinstance(x[0], Armor):
+                temp.append([1, x[0]])
+            elif isinstance(x[0], Potion):
+                temp.append([2, x[0]])
+        return temp
+
 if __name__ == "__main__":
     raise Exception("Class can not be run as main. Must be imported!")
