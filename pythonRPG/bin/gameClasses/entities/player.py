@@ -12,10 +12,10 @@ class Player:
     __inv = None
     __xp = None
     __name = ""
-    __money = 400
+    __money = 0
     __maxHealth = 100
     __health = 100
-    __attack = [100, 200]
+    __attack = [10, 20]
     __attMod = None
     __defence = [5,15]
     __defMod = None

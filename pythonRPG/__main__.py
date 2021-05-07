@@ -98,11 +98,11 @@ class Game:
         self.clearScreen()
 
     def play(self):
-        self.visitShop()
         if self.__loaded:
             self.visitShop(shop=self.__shop)
         while(True):
-            for _ in range(0, 2):
+            temp = random.randint(3, 7)
+            for _ in range(1, temp):
                 self.fightMonster()
             self.visitShop()
     

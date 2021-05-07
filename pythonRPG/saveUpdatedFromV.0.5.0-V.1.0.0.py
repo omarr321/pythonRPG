@@ -2,10 +2,10 @@
 
 import pickle
 import os
+import sys
 
 currWorkDir = os.path.dirname(__file__)
-currWorkDir = os.path.split(currWorkDir)[0]
-currWorkDir = os.path.join(os.path.split(currWorkDir)[0],"bin", "saves")
+currWorkDir = os.path.join(currWorkDir, "bin", "saves")
 
 shop = None
 player = None
@@ -45,8 +45,8 @@ while True:
 
 try:
     print("(1/3)Loading old save game...", end="")
-    shop=pickle.load(open(os.path.join(currWorkDir, temp + "Shop.save"), "rb"))
-    player=pickle.load(open(os.path.join(currWorkDir, temp + "Player.save"), "rb"))
+    shop = pickle.load(open(os.path.join(currWorkDir, temp + "Shop.save"), "rb"))
+    player = pickle.load(open(os.path.join(currWorkDir, temp + "Player.save"), "rb"))
     print("Done!")
 except FileNotFoundError:
     print("Error: There is no save file with that name!")
