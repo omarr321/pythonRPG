@@ -20,9 +20,9 @@ class Inv:
             id = id - 1
             return self.__inv[id][0]
 
-    def addItem(self, item):
+    def addItem(self, item, equiped=False):
         if isinstance(item, Item):
-            self.__inv.append([item, False])
+            self.__inv.append([item, equiped])
             return True
         else:
             return False
@@ -147,6 +147,17 @@ class Inv:
 
             temp = temp + "\n"
 
+        return temp
+
+    def toSave(self):
+        temp = list()
+        for x in self.__inv:
+            if isinstance(x[0], Weapon):
+                temp.append([0, x[0]])
+            elif isinstance(x[0], Armor):
+                temp.append([1, x[0]])
+            elif isinstance(x[0], Potion):
+                temp.append([2, x[0]])
         return temp
 
 if __name__ == "__main__":

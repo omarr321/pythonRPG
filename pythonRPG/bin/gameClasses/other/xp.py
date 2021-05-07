@@ -4,9 +4,16 @@ class XP:
     __level = 1
     __xp = 0
     __levelCap = 0
-    def __init__(self, levelCap=0):
-        self.__levelXP = 100
-        self.__levelCap = levelCap
+    def __init__(self, levelCap=0, load=False, tXP=None, lXP=None, level=None, xp=None, lCap=None):
+        if load:
+            self.__totalXP = tXP
+            self.__levelXP = lXP
+            self.__level = level
+            self.__xp = xp
+            self.__levelCap = lCap
+        else:
+            self.__levelXP = 100
+            self.__levelCap = levelCap
 
     def addXP(self, amount):
         flag = False
@@ -42,6 +49,12 @@ class XP:
 
     def getLevelXP(self):
         return self.__levelXP
+
+    def getLevelCap(self):
+        return self.__levelCap
+
+    def getTotalXP(self):
+        return self.__totalXP
 
     def toString(self):
         return "LEVEL: " + str(self.__level) + "\nXP: " + str(self.__xp) + "\\" + str(self.__levelXP)

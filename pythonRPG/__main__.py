@@ -4,15 +4,11 @@ import sys
 import os
 import time
 import random
-import pickle
 import re
 from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
-from bin.gameClasses.entities import Shop
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
-
-print(os.getcwd())
 
 class Game:
     __loaded = False
@@ -61,8 +57,9 @@ class Game:
 
                 try:
                     print("Loading save game...", end="")
-                    self.__shop=pickle.load(open(os.path.join(self.__savePath, temp + "Shop.save"), "rb"))
-                    self.__player=pickle.load(open(os.path.join(self.__savePath, temp + "Player.save"), "rb"))
+                    temp = GameDataController().loadAll(temp)
+                    self.__shop = temp[1]
+                    self.__player = temp[0]
                     print("Done!")
                     self.__loaded = True
                     time.sleep(3)
@@ -72,14 +69,14 @@ class Game:
                     self.play()
                     break
                 except FileNotFoundError:
-                    print("Error: There is not save file with that name!")
+                    print("Error: There is no save file with that name!")
                     time.sleep(3)
                     print("Starting new game...")
                     time.sleep(3)
                     self.__player = Player(temp)
                     self.clearScreen()
                     self.play()
-                except pickle.UnpicklingError:
+                except KeyError:
                     print("Error: There was a problem loading the save files!")
                     print("Type anything to contine...", end="")
                     input()
@@ -98,12 +95,12 @@ class Game:
 
         self.clearScreen()
 
-
     def play(self):
         if self.__loaded:
             self.visitShop(shop=self.__shop)
         while(True):
-            for _ in range(0, 2):
+            temp = random.randint(3, 7)
+            for _ in range(1, temp):
                 self.fightMonster()
             self.visitShop()
     
@@ -158,12 +155,10 @@ class Game:
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
                         print("----------------------------------------------------")
-                        print("Type anything to contine...")
                     elif isinstance(temp, Potion):
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                        print("Type anything to contine...")
+                        print("----------------------------------------------------") 
                     elif isinstance(temp, Armor):
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
@@ -175,9 +170,6 @@ class Game:
             elif temp == 4:
                 print("Goodbye!")
                 exit(0)
-
-        
-
 
     def visitShop(self, shop=None):
         currShop = None
@@ -288,20 +280,15 @@ class Game:
                     return None
             elif temp == 6:
                 print("Saving...", end="")
-                playerName = self.__player.getName() + "Player.save"
-                shopName = self.__player.getName() + "Shop.save"
-                try:
-                    pickle.dump(self.__player, open(os.path.join(self.__savePath, playerName), "wb"))
-                    pickle.dump(currShop, open(os.path.join(self.__savePath, shopName), "wb"))
-                    print("Done!")
-                except pickle.PicklingError:
-                    print("Error: Can not pickle the player or the shop")
+                GameDataController.saveAll(GameDataController, self.__player.getName(), self.__player, currShop)
+                print("Done!")
+
                 print("Type anything to contine...", end="")
                 input()
             elif temp == 7:
                 print("Goodbye!")
                 exit(0)
-
+                
     def fightMonster(self):
         temp = os.path.join(currWorkDir, "monsters")
         (_, _, files) = next(os.walk(temp))
@@ -359,7 +346,6 @@ class Game:
                     if temp != 0:
                         print("You leveled up! x" + str(temp))
                     temp = random.randrange(0,10)
-                    #TODO: Finsh this!
                     if temp <= 3:
                         temp = random.randrange(0,10)
                         if temp <= 6:

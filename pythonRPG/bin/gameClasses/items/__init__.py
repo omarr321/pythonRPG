@@ -4,3 +4,4 @@ from .potion import Potion
 from .weapon import Weapon
 from .effect import Effect
 from .effect import EffectStatus
+from .gameDataController import GameDataController
