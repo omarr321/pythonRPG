@@ -4,11 +4,9 @@ import sys
 import os
 import time
 import random
-import pickle
 import re
 from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
-from bin.gameClasses.entities import Shop
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
 

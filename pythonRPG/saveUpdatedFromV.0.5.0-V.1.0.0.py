@@ -4,6 +4,13 @@ import pickle
 import os
 import sys
 
+# I know I do not use any import from items in this file but without this line
+# before entities, I get a circulear import somehow.
+from bin.gameClasses.items import *
+
+from bin.gameClasses.entities import Shop
+from bin.gameClasses.entities import player
+
 currWorkDir = os.path.dirname(__file__)
 currWorkDir = os.path.join(currWorkDir, "bin", "saves")
 
@@ -62,7 +69,7 @@ except pickle.UnpicklingError:
     exit(1)
 
 print("(2/3)Converting to new save format...", end="")
-GameDataController.saveAll(temp, player, shop)
+GameDataController.saveAll(GameDataController, temp, player, shop)
 print("Done!")
 
 print("(3/3)Deleting old save...", end="")
