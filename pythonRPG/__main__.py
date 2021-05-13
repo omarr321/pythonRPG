@@ -9,6 +9,7 @@ from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
+from bin.gameClasses.map import Draw
 
 class Game:
     __loaded = False
@@ -21,8 +22,9 @@ class Game:
     def __init__(self):
         while (True):
             self.clearScreen()
+            print(Draw.TREE.value)
             print("Welcome to PythonRPG!")
-            print("version: In-Dev 0.4.1")
+            print("version: 0.6.1")
             print("What would you like to do?")
             print("1 | Play game")
             print("2 | Credits")
@@ -99,7 +101,7 @@ class Game:
         if self.__loaded:
             self.visitShop(shop=self.__shop)
         while(True):
-            temp = random.randint(3, 7)
+            temp = random.randint(2, 4)
             for _ in range(1, temp):
                 self.fightMonster()
             self.visitShop()
