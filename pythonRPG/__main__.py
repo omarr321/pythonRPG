@@ -22,7 +22,6 @@ class Game:
     def __init__(self):
         while (True):
             self.clearScreen()
-            print(Draw.TREE.value)
             print("Welcome to PythonRPG!")
             print("version: 0.6.1")
             print("What would you like to do?")
