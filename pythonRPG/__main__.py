@@ -9,21 +9,21 @@ from bin.gameClasses.items import *
 from bin.gameClasses.entities import *
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
-from bin.gameClasses.map import Draw
+from bin.gameClasses.maps.mapController import MapController
+
 
 class Game:
     __loaded = False
     __shop = None
     __player = None
 
-    
     __savePath = os.path.join(currWorkDir, "bin", "saves")
 
     def __init__(self):
-        while (True):
+        while True:
             self.clearScreen()
             print("Welcome to PythonRPG!")
-            print("version: 0.6.1")
+            print("version: 0.6.5")
             print("What would you like to do?")
             print("1 | Play game")
             print("2 | Credits")
@@ -33,7 +33,7 @@ class Game:
             if temp == 1:
                 self.clearScreen()
                 print("What is your name? ")
-                temp = ""
+
                 while True:
                     print(">>>", end="")
                     temp = input()
@@ -43,13 +43,13 @@ class Game:
                         yFlag = True
                         zFlag = True
                         if not x.isalpha():
-                            xFlag=False
+                            xFlag = False
                         if not x.isspace():
                             yFlag = False
                         if not x == '-':
                             zFlag = False
 
-                        if not(xFlag == True or yFlag == True or zFlag == True):
+                        if not (xFlag == True or yFlag == True or zFlag == True):
                             print("Error: name can only contain letter, spaces,and hyphons!")
                             flag = False
                             break
@@ -99,29 +99,29 @@ class Game:
     def play(self):
         if self.__loaded:
             self.visitShop(shop=self.__shop)
-        while(True):
+        while (True):
             temp = random.randint(2, 4)
             for _ in range(1, temp):
                 self.fightMonster()
             self.visitShop()
-    
-    def getInput(self, numOfoptions):
-        while(True):
-                print(">>>",end="")
-                temp = input()
 
-                try:
-                    temp = int(temp)
-                    if (temp < 1 or temp > numOfoptions):
-                        print("Error: Number out of range!")
-                    else:
-                        break
-                except ValueError:
-                    print("Error: You did not enter a number!")
+    def getInput(self, numOfoptions):
+        while (True):
+            print(">>>", end="")
+            temp = input()
+
+            try:
+                temp = int(temp)
+                if (temp < 1 or temp > numOfoptions):
+                    print("Error: Number out of range!")
+                else:
+                    break
+            except ValueError:
+                print("Error: You did not enter a number!")
         return temp
 
     def useInv(self, printable=False):
-        while(True):
+        while (True):
             self.clearScreen()
             print("Inventory:")
             print("----------------------------------------------------")
@@ -143,7 +143,7 @@ class Game:
                 else:
                     print("What item would you like to equip?")
                     temp = self.getInput(self.__player.getInvLen())
-                    self.__player.equipItem(temp-1)
+                    self.__player.equipItem(temp - 1)
             elif temp == 2:
                 if self.__player.getInv().toString(True, True) == "Your inventory is empty!\n":
                     print("There are no items in your inventory to see more info for!")
@@ -159,7 +159,7 @@ class Game:
                     elif isinstance(temp, Potion):
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
-                        print("----------------------------------------------------") 
+                        print("----------------------------------------------------")
                     elif isinstance(temp, Armor):
                         print("----------------------------------------------------")
                         print(temp.toString(), end="")
@@ -175,11 +175,11 @@ class Game:
     def visitShop(self, shop=None):
         currShop = None
         if shop == None:
-            currShop = Shop(random.randrange(5,15), self.__player.getXP().getLevel())
+            currShop = Shop(random.randrange(5, 15), self.__player.getXP().getLevel())
         else:
             currShop = shop
 
-        while(True):
+        while (True):
             self.clearScreen()
             print(currShop.toString(), end="")
             print("--------------")
@@ -223,7 +223,7 @@ class Game:
                             self.__player.getInv().addItem(temp)
             elif temp == 2:
                 self.useInv(True)
-                if  self.__player.getInvLen() == 0:
+                if self.__player.getInvLen() == 0:
                     print("You have no items to sell!")
                     print("Type anything to contine...", end="")
                     input()
@@ -289,7 +289,7 @@ class Game:
             elif temp == 7:
                 print("Goodbye!")
                 exit(0)
-                
+
     def fightMonster(self):
         temp = os.path.join(currWorkDir, "monsters")
         (_, _, files) = next(os.walk(temp))
@@ -299,7 +299,7 @@ class Game:
         files = files[rand].split(".")[0]
         monst = Monster(files, self.__player.getXP().getLevel())
         print("You encountered a monster!")
-        while(True):
+        while (True):
             print(monst.toString())
             print(self.__player.toString())
             print("What would you like to do?")
@@ -316,7 +316,8 @@ class Game:
                     try:
                         x[3]
                         if not x[3]:
-                            print("You dealed " + str(x[0]) + " " + str(x[1]) + " damage to the Monster! (x" + str(x[2]) + ")")
+                            print("You dealed " + str(x[0]) + " " + str(x[1]) + " damage to the Monster! (x" + str(
+                                x[2]) + ")")
                         else:
                             print("You healed " + str(x[0]) + " health!")
                             totalPlayerAtt = totalPlayerAtt - x[0]
@@ -336,7 +337,7 @@ class Game:
                 if monst.isDead():
                     print("You killed the monster!")
                     time.sleep(3)
-                    money =  monst.getReward()
+                    money = monst.getReward()
                     self.__player.addMoney(money)
                     print("You gained $" + str(money) + "!")
                     time.sleep(3)
@@ -346,24 +347,24 @@ class Game:
                     temp = self.__player.addXP(xp)
                     if temp != 0:
                         print("You leveled up! x" + str(temp))
-                    temp = random.randrange(0,10)
+                    temp = random.randrange(0, 10)
                     if temp <= 3:
-                        temp = random.randrange(0,10)
+                        temp = random.randrange(0, 10)
                         if temp <= 6:
-                            #one items
+                            # one items
                             item = self.genRandomItem()
                             print("The monster dropped " + str(item.getName()) + "!")
                             self.__player.getInv().addItem(item)
                         elif temp > 6 and temp <= 9:
-                            #two items
-                            for _ in range(0,1):
+                            # two items
+                            for _ in range(0, 1):
                                 time.sleep(3)
                                 item = self.genRandomItem()
                                 print("The monster dropped " + str(item.getName()) + "!")
                                 self.__player.getInv().addItem(item)
                         else:
-                            #three items
-                            for _ in range(0,2):
+                            # three items
+                            for _ in range(0, 2):
                                 time.sleep(3)
                                 item = self.genRandomItem()
                                 print("The monster dropped " + str(item.getName()) + "!")
@@ -384,7 +385,8 @@ class Game:
                 for x in playerDef:
                     try:
                         x[2]
-                        print("You protected against " + str(x[0]) + " damage using your " + str(x[1]) + " defence! (x" + str(x[2]) + ")")
+                        print("You protected against " + str(x[0]) + " damage using your " + str(
+                            x[1]) + " defence! (x" + str(x[2]) + ")")
                     except IndexError:
                         print("You protected against " + str(x[0]) + " damage!")
                     totalDef = totalDef + x[0]
@@ -394,7 +396,7 @@ class Game:
                 if monAtt < 0:
                     monAtt = 0
                 self.__player.subHealth(monAtt)
-                #time.sleep(3)
+                # time.sleep(3)
                 if self.__player.isDead():
                     self.clearScreen()
                     print("YOU HAVE DIED!")
@@ -406,7 +408,7 @@ class Game:
                 print("Type anything to contine...", end="")
                 input()
                 self.clearScreen()
-                    
+
             elif (temp == 2):
                 self.clearScreen()
                 temp = self.__player.getInv().getlist(Potion("default", 0))
@@ -437,7 +439,7 @@ class Game:
                                 if x.getType() == EffectStatus.HEAL:
                                     if userIn == 1:
                                         self.__player.addHealth(currHeal)
-                                        print("You healed " , currHeal, " health!")
+                                        print("You healed ", currHeal, " health!")
                                     else:
                                         monst.heal(currHeal)
                                         print("The monster healed ", currHeal, " health!")
@@ -448,7 +450,7 @@ class Game:
                                     else:
                                         monst.attack(currHeal)
                                         print("The monster took ", currHeal, " damage!")
-                        
+
                         time.sleep(3)
                         if self.__player.isDead():
                             self.clearScreen()
@@ -462,7 +464,7 @@ class Game:
                             self.clearScreen()
                             print("You killed the monster!")
                             time.sleep(3)
-                            money =  monst.getReward()
+                            money = monst.getReward()
                             self.__player.addMoney(money)
                             print("You gained $" + str(money) + "!")
                             time.sleep(3)
@@ -475,7 +477,7 @@ class Game:
                             time.sleep(3)
                             self.clearScreen()
                             break
-                        
+
                     print("Type anything to contine...", end="")
                     input()
                 self.clearScreen()
@@ -537,10 +539,10 @@ class Game:
             return temp
         return None
 
-
     def clearScreen(self):
         for _ in range(0, 50):
             print("\n\n\n\n\n")
+
 
 if __name__ == "__main__":
     temp = Game()

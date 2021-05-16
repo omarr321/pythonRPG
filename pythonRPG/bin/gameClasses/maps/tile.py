@@ -38,7 +38,7 @@ class Tile:
         if not(isinstance(right, Tile)):
             raise TypeError("Error: Up parm is not a tile!")
             
-        if self.__Type == Type.ROAD:
+        if self.__typee == Type.ROAD:
             if not(up.getType() == Type.ROAD) and not(down.getType() == Type.ROAD) and not(left.getType() == Type.ROAD) and not(right.getType() == Type.ROAD):
                 self.__draw = Draw.ROAD_DEAD_END_NOWAY
             elif up.getType() == Type.ROAD and not(down.getType() == Type.ROAD) and not(left.getType() == Type.ROAD) and not(right.getType() == Type.ROAD):
@@ -85,9 +85,12 @@ class Type(Enum):
 @unique
 class Draw(Enum):
     NONE = "   \n   \n   "
-    PLAYER = " O \n/|\\\n ᐱ "
-    SHOP = " _ \n/S\\\n|_|"
-    TREE = " _ \n/|\\\n‾|‾"
+    PLAIN_ONE = "* .\n' *\n@. "
+    PLAIN_TWO = ".' \n  ,\n   "
+    PLAIN_THREE = " @ \n.'@\n, ."
+    PLAYER = " O \n/|\\\n ^ "
+    SHOP = " _ \n/S\\\n|+|"
+    TREE = " _ \n/|\\\n‾I‾"
     ROAD_DEAD_END_NOWAY = "   \n + \n   "
     ROAD_DEAD_END_UP = " | \n | \n   "
     ROAD_DEAD_END_DOWN = "   \n | \n | "
