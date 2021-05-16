@@ -17,6 +17,7 @@ To run this game is simple:
 You can use the form [here](https://forms.gle/oGyif3WPF89d975y6).
 ## Known Bugs
 - [x] Items have no effects - FIXED
+- [ ] When you sell an item to the shop, you do not recive any money
 ## Versions
 ### Master Branch Version
 version | 
