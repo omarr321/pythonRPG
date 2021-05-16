@@ -18,6 +18,8 @@ You can use the form [here](https://forms.gle/oGyif3WPF89d975y6).
 ## Known Bugs
 - [x] Items have no effects - FIXED
 ## Versions
+### Master Branch Version
+0.6.5
 version | release date | supported
 ------- | ------------ | ---------
 0.6.0 | 5/6/2021 | :white_check_mark:
