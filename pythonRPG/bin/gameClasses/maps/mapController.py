@@ -26,6 +26,21 @@ class MapController:
             self.__defaultLeft.append(self.__defaultTile)
             self.__defaultRight.append(self.__defaultTile)
 
+    def loadMap(self, x, y):
+        # TODO: Load map from save
+        pass
+
+    def saveMap(self, x, y):
+        # TODO: Save map to save
+        pass
+
+    def shiftMaps(self, move):
+        if isinstance(move, self.Move):
+            # TODO: Shift the maps so new ones can be generated!
+            pass
+        else:
+            raise ValueError("Error: Move is not a move command!")
+
     def getMap(self, x, y):
         self.__checkPos(x, y)
         return self.__mapArr[y - 1][x - 1]
@@ -284,7 +299,8 @@ class MapController:
                 flag = False
 
             if flag:
-                map.setTile(tempX, tempY, Tile([tempX, tempY], Type.BUILDING, Draw.SHOP, Shop(random.randint(5, 20), self.__player.getXP().getLevel())))
+                map.setTile(tempX, tempY, Tile([tempX, tempY], Type.BUILDING, Draw.SHOP,
+                                               Shop(random.randint(5, 20), self.__player.getXP().getLevel())))
 
         curr = num + 1
         self.__genShops(map, curr, max)

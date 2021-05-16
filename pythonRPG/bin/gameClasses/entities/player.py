@@ -220,13 +220,13 @@ class Player:
         return temp[1]
 
     def addMoney(self, amount):
-        self.__money = self.__money + amount
+        self.__money = int(self.__money) + int(amount)
 
     def removeMoney(self, amount):
-        if self.__money - amount < 0:
+        if int(self.__money) - int(amount) < 0:
             return False
         else:
-            self.__money = self.__money - amount
+            self.__money = int(self.__money) - int(amount)
             return True
 
     def isDead(self):

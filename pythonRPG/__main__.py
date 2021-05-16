@@ -23,7 +23,7 @@ class Game:
         while True:
             self.clearScreen()
             print("Welcome to PythonRPG!")
-            print("version: 0.6.5")
+            print("version: 0.6.7")
             print("What would you like to do?")
             print("1 | Play game")
             print("2 | Credits")
@@ -105,14 +105,14 @@ class Game:
                 self.fightMonster()
             self.visitShop()
 
-    def getInput(self, numOfoptions):
+    def getInput(self, numOfoptions, startNum=1):
         while (True):
             print(">>>", end="")
             temp = input()
 
             try:
                 temp = int(temp)
-                if (temp < 1 or temp > numOfoptions):
+                if (temp < startNum or temp > numOfoptions+startNum-1):
                     print("Error: Number out of range!")
                 else:
                     break
@@ -141,31 +141,33 @@ class Game:
                     print("Type anything to contine...", end="")
                     input()
                 else:
-                    print("What item would you like to equip?")
-                    temp = self.getInput(self.__player.getInvLen())
-                    self.__player.equipItem(temp - 1)
+                    print("What item would you like to equip? (0 to go back)")
+                    temp = self.getInput(self.__player.getInvLen()+1, 0)
+                    if not(temp == 0):
+                        self.__player.equipItem(temp - 1)
             elif temp == 2:
                 if self.__player.getInv().toString(True, True) == "Your inventory is empty!\n":
                     print("There are no items in your inventory to see more info for!")
                 else:
-                    print("What item would you like to see info for?")
-                    temp = self.getInput(self.__player.getInvLen())
-                    self.clearScreen()
-                    temp = self.__player.getInv().getItem(temp)
-                    if isinstance(temp, Weapon):
-                        print("----------------------------------------------------")
-                        print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                    elif isinstance(temp, Potion):
-                        print("----------------------------------------------------")
-                        print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                    elif isinstance(temp, Armor):
-                        print("----------------------------------------------------")
-                        print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                print("Type anything to contine...", end="")
-                input()
+                    print("What item would you like to see info for? (0 to go back)")
+                    temp = self.getInput(self.__player.getInvLen()+1, 0)
+                    if not(temp == 0):
+                        self.clearScreen()
+                        temp = self.__player.getInv().getItem(temp)
+                        if isinstance(temp, Weapon):
+                            print("----------------------------------------------------")
+                            print(temp.toString(), end="")
+                            print("----------------------------------------------------")
+                        elif isinstance(temp, Potion):
+                            print("----------------------------------------------------")
+                            print(temp.toString(), end="")
+                            print("----------------------------------------------------")
+                        elif isinstance(temp, Armor):
+                            print("----------------------------------------------------")
+                            print(temp.toString(), end="")
+                            print("----------------------------------------------------")
+                    print("Type anything to contine...", end="")
+                    input()
             elif temp == 3:
                 return None
             elif temp == 4:
@@ -200,27 +202,27 @@ class Game:
                     print("Type anything to contine...", end="")
                     input()
                 else:
-                    print("What item would you like to buy?")
-                    temp = self.getInput(currShop.getLenght())
-                    if currShop.getCost(temp) > self.__player.getMoney():
-                        print("You do not have enough money!")
-                        print("Type anything to contine...", end="")
-                        input()
-                    else:
-                        print("I made it here as well")
-                        temp = currShop.buyItem(temp)
-                        if isinstance(temp, Weapon):
-                            self.__player.removeMoney(temp.getCostValue())
-                            temp.halfCostValue()
-                            self.__player.getInv().addItem(temp)
-                        elif isinstance(temp, Armor):
-                            self.__player.removeMoney(temp.getCostValue())
-                            temp.halfCostValue()
-                            self.__player.getInv().addItem(temp)
-                        elif isinstance(temp, Potion):
-                            self.__player.removeMoney(temp.getCostValue())
-                            temp.halfCostValue()
-                            self.__player.getInv().addItem(temp)
+                    print("What item would you like to buy? (0 to go back)")
+                    temp = self.getInput(currShop.getLenght()+1, 0)
+                    if not(temp == 0):
+                        if currShop.getCost(temp) > self.__player.getMoney():
+                            print("You do not have enough money!")
+                            print("Type anything to contine...", end="")
+                            input()
+                        else:
+                            temp = currShop.buyItem(temp)
+                            if isinstance(temp, Weapon):
+                                self.__player.removeMoney(temp.getCostValue())
+                                temp.halfCostValue()
+                                self.__player.getInv().addItem(temp)
+                            elif isinstance(temp, Armor):
+                                self.__player.removeMoney(temp.getCostValue())
+                                temp.halfCostValue()
+                                self.__player.getInv().addItem(temp)
+                            elif isinstance(temp, Potion):
+                                self.__player.removeMoney(temp.getCostValue())
+                                temp.halfCostValue()
+                                self.__player.getInv().addItem(temp)
             elif temp == 2:
                 self.useInv(True)
                 if self.__player.getInvLen() == 0:
@@ -228,41 +230,43 @@ class Game:
                     print("Type anything to contine...", end="")
                     input()
                 else:
-                    print("What item would you like to sell?")
-                    temp = self.getInput(self.__player.getInvLen())
-                    temp = self.__player.getInv().removeItem(temp)
-                    if isinstance(temp, Weapon):
-                        self.__player.removeMoney(temp.getCostValue())
-                        temp.doubleCostValue()
-                        currShop.sellItem(temp)
-                    elif isinstance(temp, Armor):
-                        self.__player.removeMoney(temp.getCostValue())
-                        temp.doubleCostValue()
-                        currShop.sellItem(temp)
-                    elif isinstance(temp, Potion):
-                        self.__player.removeMoney(temp.getCostValue())
-                        temp.doubleCostValue()
-                        currShop.sellItem(temp)
+                    print("What item would you like to sell? (0 to go back)")
+                    temp = self.getInput(self.__player.getInvLen()+1, 0)
+                    if not(temp == 0):
+                        temp = self.__player.getInv().removeItem(temp)
+                        if isinstance(temp, Weapon):
+                            self.__player.addMoney(temp.getCostValue())
+                            temp.doubleCostValue()
+                            currShop.sellItem(temp)
+                        elif isinstance(temp, Armor):
+                            self.__player.addMoney(temp.getCostValue())
+                            temp.doubleCostValue()
+                            currShop.sellItem(temp)
+                        elif isinstance(temp, Potion):
+                            self.__player.addMoney(temp.getCostValue())
+                            temp.doubleCostValue()
+                            currShop.sellItem(temp)
             elif temp == 3:
                 if currShop.getLenght() == 0:
                     print("There are no items in the shop to see more info for!")
                 else:
-                    print("What item would you like to see info for?")
-                    temp = self.getInput(currShop.getLenght())
-                    self.clearScreen()
-                    temp = currShop.getItem(temp)
-                    if isinstance(temp, Weapon):
-                        print("----------------------------------------------------")
-                        print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                    elif isinstance(temp, Potion):
-                        print("----------------------------------------------------")
-                        print(temp.toString(), end="")
-                        print("----------------------------------------------------")
-                    elif isinstance(temp, Armor):
-                        print("----------------------------------------------------")
-                        print(temp.toString(), end="")
-                        print("----------------------------------------------------")
+                    print("What item would you like to see info for? (o to go back)")
+                    temp = self.getInput(currShop.getLenght()+1, 0)
+                    if not(temp == 0):
+                        self.clearScreen()
+                        temp = currShop.getItem(temp)
+                        if isinstance(temp, Weapon):
+                            print("----------------------------------------------------")
+                            print(temp.toString(), end="")
+                            print("----------------------------------------------------")
+                        elif isinstance(temp, Potion):
+                            print("----------------------------------------------------")
+                            print(temp.toString(), end="")
+                            print("----------------------------------------------------")
+                        elif isinstance(temp, Armor):
+                            print("----------------------------------------------------")
+                            print(temp.toString(), end="")
+                            print("----------------------------------------------------")
                 print("Type anything to contine...", end="")
                 input()
             elif temp == 4:
@@ -420,67 +424,68 @@ class Game:
                     print("----------------------------------------------------")
                     print(temp.toString(True))
                     print("----------------------------------------------------")
-                    print("What potion would you like to use?")
-                    userIn = self.getInput(temp.getLen())
-                    temp = temp.removeItem(userIn)
-                    print(temp.toString())
-                    print("Who would you like it to effect?")
-                    print("1 | You")
-                    print("2 | Monster")
-                    userIn = self.getInput(2)
+                    print("What potion would you like to use? (0 to go back)")
+                    userIn = self.getInput(temp.getLen()+1, 0)
+                    if not(userIn == 0):
+                        temp = temp.removeItem(userIn)
+                        print(temp.toString())
+                        print("Who would you like it to effect?")
+                        print("1 | You")
+                        print("2 | Monster")
+                        userIn = self.getInput(2)
 
+                        self.clearScreen()
+                        self.__player.getInv().removeItem(userIn)
+                        if isinstance(temp, Potion):
+                            temp = temp.getEffects()
+                            for x in temp:
+                                if isinstance(x, Effect):
+                                    currHeal = x.getRandom()
+                                    if x.getType() == EffectStatus.HEAL:
+                                        if userIn == 1:
+                                            self.__player.addHealth(currHeal)
+                                            print("You healed ", currHeal, " health!")
+                                        else:
+                                            monst.heal(currHeal)
+                                            print("The monster healed ", currHeal, " health!")
+                                    elif x.getType() == EffectStatus.DAMAGE:
+                                        if userIn == 1:
+                                            self.__player.subHealth(currHeal)
+                                            print("You took", currHeal, " damage!")
+                                        else:
+                                            monst.attack(currHeal)
+                                            print("The monster took ", currHeal, " damage!")
+
+                            time.sleep(3)
+                            if self.__player.isDead():
+                                self.clearScreen()
+                                print("YOU HAVE DIED!")
+                                print("Type anything to contine...", end="")
+                                input()
+                                print("Good Bye!")
+                                sys.exit(0)
+
+                            if monst.isDead():
+                                self.clearScreen()
+                                print("You killed the monster!")
+                                time.sleep(3)
+                                money = monst.getReward()
+                                self.__player.addMoney(money)
+                                print("You gained $" + str(money) + "!")
+                                time.sleep(3)
+                                xp = monst.getXp()
+                                print("You gained " + str(xp) + " XP!")
+                                time.sleep(1)
+                                temp = self.__player.addXP(xp)
+                                if temp != 0:
+                                    print("You leveled up! x" + str(temp))
+                                time.sleep(3)
+                                self.clearScreen()
+                                break
+
+                        print("Type anything to contine...", end="")
+                        input()
                     self.clearScreen()
-                    self.__player.getInv().removeItem(userIn)
-                    if isinstance(temp, Potion):
-                        temp = temp.getEffects()
-                        for x in temp:
-                            if isinstance(x, Effect):
-                                currHeal = x.getRandom()
-                                if x.getType() == EffectStatus.HEAL:
-                                    if userIn == 1:
-                                        self.__player.addHealth(currHeal)
-                                        print("You healed ", currHeal, " health!")
-                                    else:
-                                        monst.heal(currHeal)
-                                        print("The monster healed ", currHeal, " health!")
-                                elif x.getType() == EffectStatus.DAMAGE:
-                                    if userIn == 1:
-                                        self.__player.subHealth(currHeal)
-                                        print("You took", currHeal, " damage!")
-                                    else:
-                                        monst.attack(currHeal)
-                                        print("The monster took ", currHeal, " damage!")
-
-                        time.sleep(3)
-                        if self.__player.isDead():
-                            self.clearScreen()
-                            print("YOU HAVE DIED!")
-                            print("Type anything to contine...", end="")
-                            input()
-                            print("Good Bye!")
-                            sys.exit(0)
-
-                        if monst.isDead():
-                            self.clearScreen()
-                            print("You killed the monster!")
-                            time.sleep(3)
-                            money = monst.getReward()
-                            self.__player.addMoney(money)
-                            print("You gained $" + str(money) + "!")
-                            time.sleep(3)
-                            xp = monst.getXp()
-                            print("You gained " + str(xp) + " XP!")
-                            time.sleep(1)
-                            temp = self.__player.addXP(xp)
-                            if temp != 0:
-                                print("You leveled up! x" + str(temp))
-                            time.sleep(3)
-                            self.clearScreen()
-                            break
-
-                    print("Type anything to contine...", end="")
-                    input()
-                self.clearScreen()
             elif (temp == 3):
                 self.clearScreen()
                 self.useInv()

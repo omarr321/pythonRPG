@@ -14,6 +14,7 @@ from ..other import XP
 
 saveDir = os.path.join(os.path.split(os.path.split(os.path.dirname(__file__))[0])[0], "saves")
 
+
 class GameDataController:
 
     def saveAll(self, saveName, player, shop):
@@ -26,13 +27,13 @@ class GameDataController:
         os.makedirs(os.path.join(currDir, "player", "playerArmor"))
         os.makedirs(os.path.join(currDir, "player", "playerInv"))
         os.makedirs(os.path.join(currDir, "player", "playerWeapon"))
-        
+
         os.makedirs(os.path.join(currDir, "shop"))
         os.makedirs(os.path.join(currDir, "shop", "shopInv"))
 
         self.__Save().savePlayer(saveName, player)
         self.__Save().saveShop(saveName, shop)
-    
+
     def loadAll(self, saveName):
         return [self.__Load().loadPlayer(saveName), self.__Load().loadShop(saveName)]
 
@@ -52,10 +53,10 @@ class GameDataController:
             self.writeString(currDir, "playerXP.save", "xp", temp.getXP())
             self.writeString(currDir, "playerXP.save", "levelCap", temp.getLevelCap())
 
-            if not(player.getDefMod() == None):
+            if not (player.getDefMod() == None):
                 self.saveItem(os.path.join(currDir, "playerArmor"), "armor", "armor", player.getDefMod())
 
-            if not(player.getAttMod() == None):
+            if not (player.getAttMod() == None):
                 self.saveItem(os.path.join(currDir, "playerWeapon"), "weapon", "weapon", player.getAttMod())
 
             self.saveInv(os.path.join(currDir, "playerInv"), player.getInv())
@@ -65,7 +66,6 @@ class GameDataController:
             self.writeString(currDir, "shopBasic.save", "name", shop.getName())
             self.saveInv(os.path.join(currDir, "shopInv"), shop.getInv())
 
-    
         def saveInv(self, path, inv):
             number = 1
             for x in inv.toSave():
@@ -106,32 +106,32 @@ class GameDataController:
             ffile.write(key + ":" + str(value) + "\n")
             ffile.close()
 
-
         def writeRange(self, path, fileName, key, mmin, mmax):
             ffile = open(os.path.join(path, fileName), "a+")
             ffile.write(key + ":[" + str(mmin) + "-" + str(mmax) + "]\n")
             ffile.close()
-    
+
     class __Load:
         def loadPlayer(self, saveName):
             currPath = os.path.join(saveDir, saveName)
-            
+
             name = self.loadString("name", os.path.join(currPath, "player"), "playerBasic.save")
             money = self.loadString("money", os.path.join(currPath, "player"), "playerBasic.save")
             maxHP = self.loadString("maxHP", os.path.join(currPath, "player"), "playerBasic.save")
             HP = self.loadString("HP", os.path.join(currPath, "player"), "playerBasic.save")
 
-
             inv = self.loadInv(saveName, os.path.join(currPath, "player", "playerInv"))
-            
+
             try:
-                armor = self.loadItem(saveName, os.path.join(currPath, "player", "playerArmor"), "armor", "armor", solved=True)
+                armor = self.loadItem(saveName, os.path.join(currPath, "player", "playerArmor"), "armor", "armor",
+                                      solved=True)
                 inv.addItem(armor, True)
             except FileNotFoundError:
                 armor = None
-            
+
             try:
-                weapon = self.loadItem(saveName, os.path.join(currPath, "player", "playerWeapon"), "weapon", "weapon", solved=True)
+                weapon = self.loadItem(saveName, os.path.join(currPath, "player", "playerWeapon"), "weapon", "weapon",
+                                       solved=True)
                 inv.addItem(weapon, True)
             except FileNotFoundError:
                 weapon = None
@@ -144,8 +144,9 @@ class GameDataController:
 
             xpp = XP(load=True, tXP=totalXP, lXP=levelXP, level=level, xp=xp, lCap=levelCap)
 
-            return Player(name, load=True, attMod=weapon, defMod=armor, xp=xpp, inv=inv, money=money, maxHP=maxHP, HP=HP)
-        
+            return Player(name, load=True, attMod=weapon, defMod=armor, xp=xpp, inv=inv, money=money, maxHP=maxHP,
+                          HP=HP)
+
         def loadShop(self, saveName):
             currPath = os.path.join(saveDir, saveName)
             name = self.loadString("name", os.path.join(currPath, "shop"), "shopBasic.save")
@@ -154,7 +155,7 @@ class GameDataController:
 
         def loadInv(self, saveName, path):
             currPath = os.path.join(saveDir, saveName, path)
-            
+
             items = list()
             (_, _, files) = next(os.walk(currPath))
             regex = re.compile('Effect[1-9]{1}([0-9]{0,})')
@@ -168,7 +169,7 @@ class GameDataController:
 
             for x in items:
                 temp.addItem(self.loadItem(saveName, path, x.split(".")[0], x.split(".")[1], solved=True))
-            
+
             return temp
 
         def loadItem(self, saveName, path, itemName, itemExt, solved=False):

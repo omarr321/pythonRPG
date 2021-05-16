@@ -17,12 +17,13 @@ To run this game is simple:
 You can use the form [here](https://forms.gle/oGyif3WPF89d975y6).
 ## Known Bugs
 - [x] Items have no effects - FIXED
-- [ ] When you sell an item to the shop, you do not recive any money
+- [x] When you sell an item to the shop, you do not receive any money - FIXED
+- [ ] Game does not load player Inv Correctly
 ## Versions
 ### Master Branch Version
 version | 
 ------- |
-0.6.5 |
+0.6.7 |
 ### Released Versions
 version | release date | supported
 ------- | ------------ | ---------
