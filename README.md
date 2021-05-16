@@ -19,7 +19,10 @@ You can use the form [here](https://forms.gle/oGyif3WPF89d975y6).
 - [x] Items have no effects - FIXED
 ## Versions
 ### Master Branch Version
-0.6.5
+version | 
+------- |
+0.6.5 |
+### Released Versions
 version | release date | supported
 ------- | ------------ | ---------
 0.6.0 | 5/6/2021 | :white_check_mark:
