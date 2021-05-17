@@ -10,6 +10,8 @@ from bin.gameClasses.entities import *
 from bin.gameClasses.other import utility
 from bin.common import currWorkDir
 from bin.gameClasses.maps.mapController import MapController
+from bin.gameClasses.maps import Draw
+import time
 
 
 class Game:
@@ -22,6 +24,44 @@ class Game:
     def __init__(self):
         while True:
             self.clearScreen()
+            print("Starting tests...")
+            testTimes = []
+            testAmount = 200
+            for x in range(1, testAmount+1):
+                print("(" + str(x) + "/" + str(testAmount) + ") Running test...")
+                firstT = time.perf_counter()
+                mapContol = MapController(Player("test" + str(x)))
+                for x in range(-1, 2):
+                    for y in range(-1, 2):
+                        temp = mapContol.genNewMap([x, y])
+                        mapContol.setMap(2, 2, temp)
+                        mapContol.updateMap(2, 2)
+                        mapContol.saveMap(2, 2)
+                secondT = time.perf_counter()
+                testTimes.append(secondT - firstT)
+
+            currWorkDir = os.path.dirname(__file__)
+            currWorkDir = os.path.split(currWorkDir)[0]
+            currWorkDir = os.path.join(currWorkDir, "pythonRPG", "other")
+            os.makedirs(currWorkDir)
+            writeF = open(os.path.join(currWorkDir, "TEST_RESULTS.txt"), "w+")
+
+            print("\n\n---TEST RESULTS---")
+            writeF.write("---TEST RESULTS---\n")
+            count = 1
+            total = 0
+            for x in testTimes:
+                print(f"Test {count}: {x:0.4f} seconds")
+                writeF.write(f"Test {count}: {x:0.4f} seconds\n")
+                count = count + 1
+                total = total + x
+            adv = total/(count-1)
+            print(f"\nTotal Time: {total:0.4f}")
+            writeF.write(f"\nTotal Time: {total:0.4f}\n")
+            print(f"Average Time: {adv:0.4f}")
+            writeF.write(f"Average Time: {adv:0.4f}\n")
+            writeF.close()
+            sys.exit(0)
             print("Welcome to PythonRPG!")
             print("version: 0.6.7")
             print("What would you like to do?")
@@ -112,7 +152,7 @@ class Game:
 
             try:
                 temp = int(temp)
-                if (temp < startNum or temp > numOfoptions+startNum-1):
+                if (temp < startNum or temp > numOfoptions + startNum - 1):
                     print("Error: Number out of range!")
                 else:
                     break
@@ -142,16 +182,16 @@ class Game:
                     input()
                 else:
                     print("What item would you like to equip? (0 to go back)")
-                    temp = self.getInput(self.__player.getInvLen()+1, 0)
-                    if not(temp == 0):
+                    temp = self.getInput(self.__player.getInvLen() + 1, 0)
+                    if not (temp == 0):
                         self.__player.equipItem(temp - 1)
             elif temp == 2:
                 if self.__player.getInv().toString(True, True) == "Your inventory is empty!\n":
                     print("There are no items in your inventory to see more info for!")
                 else:
                     print("What item would you like to see info for? (0 to go back)")
-                    temp = self.getInput(self.__player.getInvLen()+1, 0)
-                    if not(temp == 0):
+                    temp = self.getInput(self.__player.getInvLen() + 1, 0)
+                    if not (temp == 0):
                         self.clearScreen()
                         temp = self.__player.getInv().getItem(temp)
                         if isinstance(temp, Weapon):
@@ -203,9 +243,9 @@ class Game:
                     input()
                 else:
                     print("What item would you like to buy? (0 to go back)")
-                    temp = self.getInput(currShop.getLenght()+1, 0)
-                    if not(temp == 0):
-                        if currShop.getCost(temp) > self.__player.getMoney():
+                    temp = self.getInput(currShop.getLenght() + 1, 0)
+                    if not (temp == 0):
+                        if int(currShop.getCost(temp)) > int(self.__player.getMoney()):
                             print("You do not have enough money!")
                             print("Type anything to contine...", end="")
                             input()
@@ -231,8 +271,8 @@ class Game:
                     input()
                 else:
                     print("What item would you like to sell? (0 to go back)")
-                    temp = self.getInput(self.__player.getInvLen()+1, 0)
-                    if not(temp == 0):
+                    temp = self.getInput(self.__player.getInvLen() + 1, 0)
+                    if not (temp == 0):
                         temp = self.__player.getInv().removeItem(temp)
                         if isinstance(temp, Weapon):
                             self.__player.addMoney(temp.getCostValue())
@@ -251,8 +291,8 @@ class Game:
                     print("There are no items in the shop to see more info for!")
                 else:
                     print("What item would you like to see info for? (o to go back)")
-                    temp = self.getInput(currShop.getLenght()+1, 0)
-                    if not(temp == 0):
+                    temp = self.getInput(currShop.getLenght() + 1, 0)
+                    if not (temp == 0):
                         self.clearScreen()
                         temp = currShop.getItem(temp)
                         if isinstance(temp, Weapon):
@@ -425,8 +465,8 @@ class Game:
                     print(temp.toString(True))
                     print("----------------------------------------------------")
                     print("What potion would you like to use? (0 to go back)")
-                    userIn = self.getInput(temp.getLen()+1, 0)
-                    if not(userIn == 0):
+                    userIn = self.getInput(temp.getLen() + 1, 0)
+                    if not (userIn == 0):
                         temp = temp.removeItem(userIn)
                         print(temp.toString())
                         print("Who would you like it to effect?")

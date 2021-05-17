@@ -3,10 +3,15 @@ from enum import Enum, unique
 from .tile import Tile
 from .tile import Draw
 from .tile import Type
+from .tile import DataType
 from bin.gameClasses.items import *
 from bin.gameClasses.entities.shop import Shop
 from bin.gameClasses.entities.player import Player
 import random
+import os
+import shutil
+
+saveDir = os.path.join(os.path.split(os.path.split(os.path.dirname(__file__))[0])[0], "saves")
 
 
 class MapController:
@@ -31,8 +36,41 @@ class MapController:
         pass
 
     def saveMap(self, x, y):
-        # TODO: Save map to save
-        pass
+        currMap = self.getMap(x, y)
+        curr = os.path.join(saveDir, self.__player.getName(),
+                            "map[" + str(currMap.getMapPos()[0]) + "_" + str(currMap.getMapPos()[1]) + "]")
+        os.makedirs(curr)
+        os.makedirs(os.path.join(curr, "swapTile", "data"))
+        os.makedirs(os.path.join(curr, "playerTile"))
+        temp = currMap.toSave()
+        for x in temp:
+            self._MapDataController.writeString(curr, "mapData.save", x[0], x[1])
+
+        if not(currMap.getSwapTile() is None):
+            for x in currMap.getSwapTile().toSave():
+                if not (x[0] == "data"):
+                    self._MapDataController.writeString(os.path.join(curr, "swapTile"), "swapTileData.save", x[0], x[1])
+                else:
+                    if not (x[1] is None):
+                        if x[2] == DataType.SHOP:
+                            GameDataController.Save.saveShop(os.path.join(curr, "swapTile", "data"), x[1])
+
+        for x in currMap.getPlayerTile().toSave():
+            if not (x[0] == "data"):
+                self._MapDataController.writeString(os.path.join(curr, "playerTile"), "playerTileData.save", x[0], x[1])
+
+        for x in currMap.getAllTiles():
+            pathCurr = os.path.join(curr, "tile[" + str(x.getCords()[0]) + "-" + str(x.getCords()[1]) + "]")
+            os.makedirs(pathCurr)
+            for y in x.toSave():
+                if not (y[0] == "data"):
+                    self._MapDataController.writeString(pathCurr, "tileData.save", y[0], y[1])
+                else:
+                    if not (y[1] is None):
+                        pass
+                        if y[2] == DataType.SHOP:
+                            os.mkdir(os.path.join(pathCurr, "data"))
+                            GameDataController.Save.saveShop(os.path.join(pathCurr, "data"), y[1])
 
     def shiftMaps(self, move):
         if isinstance(move, self.Move):
@@ -62,7 +100,7 @@ class MapController:
 
     def genNewMap(self, mapCords):
         print("  (1/5) Generating map (" + str(mapCords[0]) + "-" + str(mapCords[1]) + ")...", end="")
-        temp = Map(mapCords[0], mapCords[1], 10, self.__player)
+        temp = Map(mapCords[0], mapCords[1], 10)
         print("Done!")
         print("  (2/5) Filling in map...", end="")
         for x in range(1, 11):
@@ -300,7 +338,7 @@ class MapController:
 
             if flag:
                 map.setTile(tempX, tempY, Tile([tempX, tempY], Type.BUILDING, Draw.SHOP,
-                                               Shop(random.randint(5, 20), self.__player.getXP().getLevel())))
+                                               Shop(random.randint(5, 20), self.__player.getXP().getLevel()), DataType.SHOP))
 
         curr = num + 1
         self.__genShops(map, curr, max)
@@ -318,7 +356,62 @@ class MapController:
         UP = "up"
         DOWN = "down"
 
+    class _MapDataController:
+        @staticmethod
+        def writeString(path, fileName, key, value):
+            ffile = open(os.path.join(path, fileName), "a+")
+            ffile.write(key + ":" + str(value) + "\n")
+            ffile.close()
+
+        @staticmethod
+        def writeRange(path, fileName, key, mmin, mmax):
+            ffile = open(os.path.join(path, fileName), "a+")
+            ffile.write(key + ":[" + str(mmin) + "," + str(mmax) + "]\n")
+            ffile.close()
+
+        @staticmethod
+        def loadString(key, path, fileName):
+            f = open(os.path.join(path, fileName))
+            for line in f:
+                if line.startswith(key + ":"):
+                    temp = line.split(":")
+                    f.close()
+                    return temp[1].rstrip()
+            f.close()
+            raise KeyError("Can not find key \"" + str(key) + "\"!")
+
+        @staticmethod
+        def loadNum(key, path, fileName):
+            temp = MapController._MapDataController.loadString(key, path, fileName)
+            try:
+                temp = int(temp)
+            except ValueError:
+                raise ValueError("Value is not a number!")
+            return temp
+
+        @staticmethod
+        def loadNumPair(arr, key, path, fileName):
+            f = open(os.path.join(path, fileName))
+            for line in f:
+                if line.startswith(key + ":"):
+                    temp = line.split(":")
+                    try:
+                        temp = temp[1].split("[")
+                        temp = temp[1].split("]")
+                        temp = temp[0].split(",")
+                        arr[0] = int(temp[0])
+                        arr[1] = int(temp[1])
+                        f.close()
+                        return
+                    except ValueError:
+                        f.close()
+                        raise ValueError("Value is not a number pair!")
+                    except IndexError:
+                        f.close()
+                        raise ValueError("Value is not a number pair!")
+            f.close()
+            raise KeyError("Can not find key \"" + str(key) + "\"!")
+
 
 if __name__ == "__main__":
-    MapController(None)
-    # raise Exception("Class can not be run as main. Must be imported!")
+    raise Exception("Class can not be run as main. Must be imported!")

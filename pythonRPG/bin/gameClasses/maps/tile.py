@@ -1,12 +1,18 @@
 from enum import Enum, unique
 
+@unique
+class DataType(Enum):
+    SHOP = "shop"
+    OTHER = "other"
+
 class Tile:
     __draw = None
     __cords = [-1,-1]
     __typee = None
     __data = None
+    __dataType = None
 
-    def __init__ (self, cords, typee, draw, data):
+    def __init__ (self, cords, typee, draw, data, dataType=DataType.OTHER):
         self.__cords = cords
         if not(isinstance(typee, Type)):
             raise TypeError("Error: Type is not an instance of the Type class!")
@@ -15,6 +21,7 @@ class Tile:
             raise TypeError("Error: Draw is not an instance of the Draw class!")
         self.__draw = draw
         self.__data = data
+        self.__dataType = dataType
 
     def getData(self):
         return self.__data
@@ -74,6 +81,14 @@ class Tile:
             
         else:
             pass
+
+    def toSave(self):
+        temp = []
+        temp.append(["type", self.__typee.value])
+        temp.append(["cords", "[" + str(self.__cords[0]) + "," + str(self.__cords[1]) + "]"])
+        temp.append(["draw", str(self.__draw).split('.')[1].lower()])
+        temp.append(["data", self.__data, self.__dataType])
+        return temp
 
 @unique
 class Type(Enum):

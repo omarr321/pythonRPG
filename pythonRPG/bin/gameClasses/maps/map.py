@@ -1,6 +1,5 @@
 from .tile import Tile, Draw, Type
 
-
 class Map:
     __mapSize = -1
     __mapGrid = None
@@ -10,7 +9,7 @@ class Map:
     __playerPos = [-1, -1]
     __playerTile = None
 
-    def __init__(self, mapX, mapY, mapSize, player):
+    def __init__(self, mapX, mapY, mapSize):
         self.__mapPos = [mapX, mapY]
         if mapSize < 1:
             raise ValueError("Error: Map size can not be negative!")
@@ -23,7 +22,7 @@ class Map:
                 tempA.append(None)
             tempB.append(tempA)
         self.__mapGrid = tempB
-        self.__playerTile = Tile([-1,-1], Type.PLAIN, Draw.PLAYER, player)
+        self.__playerTile = Tile([-1, -1], Type.PLAIN, Draw.PLAYER, None)
 
     def getTile(self, x, y):
         self.__checkPos(y, x)
@@ -76,17 +75,45 @@ class Map:
                     self.getTile(x, y).update(self.getTile(x, y-1), self.getTile(x, y+1), self.getTile(x-1, y), self.getTile(x+1, y))
     
     def toString(self):
-        temp = ""
+        temp = "|="
+        for _ in range(1, self.__mapSize+1):
+            temp = temp + "==="
+        temp = temp + "=|\n"
         for x in self.__mapGrid:
+            temp = temp + "||"
             for y in x:
                 temp = temp + y.getDraw().value.split("\n")[0]
-            temp = temp + "\n"
+            temp = temp + "||\n||"
             for y in x:
                 temp = temp + y.getDraw().value.split("\n")[1]
-            temp = temp + "\n"
+            temp = temp + "||\n||"
             for y in x:
                 temp = temp + y.getDraw().value.split("\n")[2]
-            temp = temp + "\n"
+            temp = temp + "||\n"
+        temp = temp + "|="
+        for _ in range(1, self.__mapSize+1):
+            temp = temp + "==="
+        temp = temp + "=|\n"
+        return temp
+
+    def toSave(self):
+        temp = []
+        temp.append(["mapSize", self.__mapSize])
+        temp.append(["mapPos", "[" + str(self.__mapPos[0]) + "," + str(self.__mapPos[1]) + "]"])
+        temp.append(["playerPos", "[" + str(self.__playerPos[0]) + "," + str(self.__playerPos[1]) + "]"])
+        return temp
+
+    def getSwapTile(self):
+        return self.__swapTile
+
+    def getPlayerTile(self):
+        return self.__playerTile
+
+    def getAllTiles(self):
+        temp = []
+        for x in range(1, self.__mapSize+1):
+            for y in range(1, self.__mapSize+1):
+                temp.append(self.getTile(x, y))
         return temp
 
     def __checkPos(self, x, y):

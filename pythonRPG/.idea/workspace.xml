@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="483d1b0a-26e5-4194-a584-559369e97e0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pythonRPG.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__main__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/gameClasses/items/gameDataController.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/gameClasses/items/gameDataController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/gameClasses/maps/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/gameClasses/maps/map.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/gameClasses/maps/mapController.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/gameClasses/maps/mapController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/gameClasses/maps/tile.py" beforeDir="false" afterPath="$PROJECT_DIR$/bin/gameClasses/maps/tile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/player/playerBasic.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/player/playerXP.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopBasic.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item1.armor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item1Effect1.armor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item2.armor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item2Effect1.armor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item3.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item3Effect1.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item3Effect2.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item4.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item4Effect1.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item5.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item5Effect1.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item6.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/L/shop/shopInv/item6Effect1.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/player/playerBasic.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/player/playerXP.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopBasic.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item1.armor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item1Effect1.armor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item2.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item2Effect1.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item2Effect2.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item3.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item3Effect1.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item3Effect2.weapon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item4.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item4Effect1.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item5.potion" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/saves/Omar/shop/shopInv/item5Effect1.potion" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1sa7kLaLFSYnDVI07PTwjUoFN0V" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RunManager" selected="Python.__main__">
+    <configuration name="__main__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pythonRPG" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/__main__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mapController" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pythonRPG" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin/gameClasses/maps" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bin/gameClasses/maps/mapController.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.__main__" />
+        <item itemvalue="Python.mapController" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="483d1b0a-26e5-4194-a584-559369e97e0f" name="Default Changelist" comment="" />
+      <created>1621098990671</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621098990671</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="map._MapController__mapArr[1]" />
+        <watch expression="__py_debug_temp_var_1174364920" />
+        <watch expression="map._MapController__mapArr[1]" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
